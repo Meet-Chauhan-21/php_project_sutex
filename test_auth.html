@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Authentication - VidyaGuru</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin: 15px 0; }
+        label { display: block; margin-bottom: 5px; }
+        input { width: 300px; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .result { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+    </style>
+</head>
+<body>
+    <h1>Test Authentication System</h1>
+    
+    <div style="display: flex; gap: 50px;">
+        <div>
+            <h2>Register New User</h2>
+            <form id="testRegister">
+                <div class="form-group">
+                    <label>First Name:</label>
+                    <input type="text" name="firstName" value="Test User" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name:</label>
+                    <input type="text" name="lastName" value="Demo" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" value="test@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone:</label>
+                    <input type="tel" name="phone" value="9999999999">
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" name="password" value="Test123" required>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        
+        <div>
+            <h2>Login User</h2>
+            <form id="testLogin">
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" value="test@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password:</label>
+                    <input type="password" name="password" value="Test123" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        
+        <div>
+            <h2>Submit Application</h2>
+            <form id="testApplication">
+                <div class="form-group">
+                    <label>First Name:</label>
+                    <input type="text" name="firstName" value="Test Applicant" required>
+                </div>
+                <div class="form-group">
+                    <label>Last Name:</label>
+                    <input type="text" name="lastName" value="Demo" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" name="email" value="applicant@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone:</label>
+                    <input type="tel" name="phone" value="8888888888" required>
+                </div>
+                <div class="form-group">
+                    <label>Program:</label>
+                    <select name="program" required>
+                        <option value="BCA">BCA</option>
+                        <option value="MBA">MBA</option>
+                        <option value="MCA">MCA</option>
+                    </select>
+                </div>
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="results"></div>
+
+    <script>
+        function showResult(title, data, isError = false) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${isError ? 'error' : 'success'}`;
+            div.innerHTML = `<h3>${title}</h3><pre>${JSON.stringify(data, null, 2)}</pre>`;
+            results.appendChild(div);
+        }
+
+        document.getElementById('testRegister').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('php/register_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('Registration Result', result, !result.success);
+            } catch (error) {
+                showResult('Registration Error', error, true);
+            }
+        });
+
+        document.getElementById('testLogin').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('Login Result', result, !result.success);
+            } catch (error) {
+                showResult('Login Error', error, true);
+            }
+        });
+
+        document.getElementById('testApplication').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                const response = await fetch('php/submit_application.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('Application Result', result, !result.success);
+            } catch (error) {
+                showResult('Application Error', error, true);
+            }
+        });
+    </script>
+</body>
+</html>

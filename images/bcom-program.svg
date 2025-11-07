@@ -1,0 +1,36 @@
+<!-- Professional BCom Program Image -->
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bcomGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#059669;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#047857;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" fill="url(#bcomGrad)"/>
+  
+  <!-- Commerce elements -->
+  <rect x="70" y="70" width="60" height="60" fill="rgba(255,255,255,0.15)" rx="8"/>
+  <rect x="270" y="60" width="80" height="60" fill="rgba(255,255,255,0.1)" rx="10"/>
+  <circle cx="200" cy="85" r="20" fill="rgba(255,255,255,0.12)"/>
+  
+  <!-- Chart elements -->
+  <rect x="85" y="100" width="8" height="20" fill="white" opacity="0.8"/>
+  <rect x="95" y="95" width="8" height="25" fill="white" opacity="0.7"/>
+  <rect x="105" y="90" width="8" height="30" fill="white" opacity="0.9"/>
+  <rect x="115" y="85" width="8" height="35" fill="white" opacity="0.6"/>
+  
+  <!-- Pie chart -->
+  <circle cx="200" cy="85" r="15" fill="none" stroke="white" stroke-width="3" opacity="0.8" 
+          stroke-dasharray="30 20 25 15" stroke-dashoffset="0"/>
+  
+  <!-- Currency symbols -->
+  <text x="310" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" opacity="0.7">₹</text>
+  <text x="290" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" opacity="0.6">$</text>
+  <text x="330" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" opacity="0.6">€</text>
+  
+  <!-- Main content -->
+  <rect x="80" y="180" width="240" height="80" fill="rgba(255,255,255,0.1)" rx="16"/>
+  <text x="200" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="white">BCom Program</text>
+  <text x="200" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="white" opacity="0.9">Commerce</text>
+  <text x="200" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white" opacity="0.8">Finance • Analysis • Growth</text>
+</svg>

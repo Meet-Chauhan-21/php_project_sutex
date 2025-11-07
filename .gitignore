@@ -1,0 +1,42 @@
+# PHP
+*.log
+*.cache
+
+# Database
+*.sql.backup
+*.db
+
+# Environment files
+.env
+.env.local
+
+# Google OAuth Credentials (IMPORTANT!)
+php/google_credentials.php
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Dependencies (if using composer)
+vendor/
+composer.lock
+
+# Session files
+sessions/
+
+# Uploaded files (optional - uncomment if needed)
+# uploads/
+# images/uploads/

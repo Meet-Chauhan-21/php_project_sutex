@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="VidyaGuru College Profile Management - View, Edit, and Manage Your Profile Information">
+    <meta name="keywords" content="profile, user management, VidyaGuru, student profile">
+    <meta name="author" content="VidyaGuru College">
+    <title>Profile Management - VidyaGuru College</title>
+    <link rel="stylesheet" href="assets/fonts-local.css">
+    <link rel="stylesheet" href="assets/fontawesome-local.css?v=2024-vertical-layout">
+    <link rel="stylesheet" href="new.css?v=2024-vertical-layout">
+    <link rel="stylesheet" href="assets/professional-enhancements.css">
+    <link rel="stylesheet" href="assets/compact-design.css">
+    <link rel="icon" type="image/svg+xml" href="cc_logo.svg">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">VG</div>
+                <span>VidyaGuru</span>
+            </a>
+            <nav id="nav" role="navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#programs">Programs</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#testimonials">Reviews</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="profile.html" class="active" aria-current="page">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Profile Management Section -->
+    <section class="profile-section">
+        <div class="container">
+            <!-- Profile Hero Header -->
+            <div class="profile-hero">
+                <div class="profile-hero-content">
+                    <div class="profile-avatar">
+                        <div class="avatar-circle" id="avatarCircle">
+                            <img id="profileImage" src="" alt="Profile Picture">
+                            <i class="fas fa-user" id="defaultAvatar"></i>
+                        </div>
+                        <button class="avatar-edit-btn" id="avatarEditBtn" title="Change Profile Picture">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="profile-hero-info">
+                        <h1 id="heroDisplayName">Welcome Back!</h1>
+                        <p id="heroDisplayRole">Student Profile</p>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <span class="stat-number" id="statDaysActive">0</span>
+                                <span class="stat-label">Days Active</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="statCoursesEnrolled">0</span>
+                                <span class="stat-label">Courses</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number" id="statAchievements">0</span>
+                                <span class="stat-label">Achievements</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-hero-actions">
+                    <button id="quickEditBtn" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Quick Edit
+                    </button>
+                    <button id="settingsBtn" class="btn btn-secondary">
+                        <i class="fas fa-cog"></i> Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- Not Logged In Message -->
+            <div id="notLoggedIn" class="auth-card modern-card" style="display: none;">
+                <div class="card-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <div class="card-header">
+                    <h2>Access Required</h2>
+                    <p>Please log in to access your profile dashboard</p>
+                </div>
+                <div class="card-content">
+                    <div class="auth-actions">
+                        <a href="login.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-sign-in-alt"></i> Login to Continue
+                        </a>
+                        <a href="register.html" class="btn btn-outline">
+                            <i class="fas fa-user-plus"></i> Create Account
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div id="profileContent" style="display: none;">
+                <center>
+                <!-- Profile Navigation Tabs -->
+                <div class="profile-navigation">
+                    <nav class="profile-tabs">
+                        <button class="tab-btn active" data-tab="overview">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Overview</span>
+                        </button>
+                        <button class="tab-btn" data-tab="personal">
+                            <i class="fas fa-user"></i>
+                            <span>Personal Info</span>
+                        </button>
+                        <button class="tab-btn" data-tab="academic">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Academic</span>
+                        </button>
+                        <button class="tab-btn" data-tab="security">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Security</span>
+                        </button>
+                        <button class="tab-btn" data-tab="preferences">
+                            <i class="fas fa-sliders-h"></i>
+                            <span>Preferences</span>
+                        </button>
+                    </nav>
+                </div>
+                </center>
+                <!-- Tab Content Container -->
+                <div class="tab-content-container">
+                    
+                    <!-- Overview Tab -->
+                    <div class="tab-content active" id="overview-tab">
+                        <div class="dashboard-grid">
+                            <!-- Profile Summary Card -->
+                            <div class="dashboard-card profile-summary">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-user-circle"></i> Profile Summary</h3>
+                                    <button class="card-action-btn" data-action="edit-profile">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="summary-info">
+                                        <div class="info-item">
+                                            <span class="info-label">Full Name</span>
+                                            <span class="info-value" id="summaryFullName">-</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Email</span>
+                                            <span class="info-value" id="summaryEmail">-</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Program</span>
+                                            <span class="info-value" id="summaryProgram">-</span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Status</span>
+                                            <span class="status-badge active" id="summaryStatus">Active</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions Card -->
+                            <div class="dashboard-card quick-actions">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="action-grid">
+                                        <button class="action-btn" data-action="edit-profile">
+                                            <i class="fas fa-edit"></i>
+                                            <span>Edit Profile</span>
+                                        </button>
+                                        <button class="action-btn" data-action="change-password">
+                                            <i class="fas fa-key"></i>
+                                            <span>Change Password</span>
+                                        </button>
+                                        <button class="action-btn" data-action="download-data">
+                                            <i class="fas fa-download"></i>
+                                            <span>Download Data</span>
+                                        </button>
+                                        <button class="action-btn" data-action="privacy-settings">
+                                            <i class="fas fa-user-shield"></i>
+                                            <span>Privacy Settings</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Recent Activity Card -->
+                            <div class="dashboard-card recent-activity">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                                    <button class="card-action-btn" data-action="view-all-activity">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <div class="activity-timeline">
+                                        <div class="activity-item">
+                                            <div class="activity-icon">
+                                                <i class="fas fa-sign-in-alt"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <span class="activity-title">Logged in</span>
+                                                <span class="activity-time" id="lastLoginTime">Just now</span>
+                                            </div>
+                                        </div>
+                                        <div class="activity-item">
+                                            <div class="activity-icon">
+                                                <i class="fas fa-user-edit"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <span class="activity-title">Profile updated</span>
+                                                <span class="activity-time">2 days ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="activity-item">
+                                            <div class="activity-icon">
+                                                <i class="fas fa-graduation-cap"></i>
+                                            </div>
+                                            <div class="activity-content">
+                                                <span class="activity-title">Enrolled in program</span>
+                                                <span class="activity-time" id="enrollmentTime">1 week ago</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Progress Card -->
+                            <div class="dashboard-card progress-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-chart-line"></i> Profile Completion</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="progress-overview">
+                                        <div class="progress-info">
+                                            <div class="progress-percentage">
+                                                <span class="percentage-value" id="profileCompletionValue">75%</span>
+                                                <span class="percentage-label">Complete</span>
+                                            </div>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar">
+                                                    <div class="progress-fill" id="progressFill" style="width: 75%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="progress-details">
+                                            <div class="progress-stats-grid">
+                                                <div class="progress-stat">
+                                                    <div class="stat-icon completed">
+                                                        <i class="fas fa-check"></i>
+                                                    </div>
+                                                    <div class="stat-info">
+                                                        <span class="stat-number">3</span>
+                                                        <span class="stat-label">Completed</span>
+                                                    </div>
+                                                </div>
+                                                <div class="progress-stat">
+                                                    <div class="stat-icon pending">
+                                                        <i class="fas fa-clock"></i>
+                                                    </div>
+                                                    <div class="stat-info">
+                                                        <span class="stat-number">1</span>
+                                                        <span class="stat-label">Remaining</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Info Tab -->
+                    <div class="tab-content" id="personal-tab">
+                        <div class="form-section-grid">
+                            <!-- Basic Information -->
+                            <div class="form-section-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-user"></i> Basic Information</h3>
+                                    <button class="card-action-btn" onclick="toggleEditMode('basic')" id="editBasicBtn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <!-- Display Mode -->
+                                    <div class="info-grid" id="basicDisplay">
+                                        <div class="info-field">
+                                            <label>First Name</label>
+                                            <span id="displayFirstName">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Last Name</label>
+                                            <span id="displayLastName">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Date of Birth</label>
+                                            <span id="displayDOB">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Gender</label>
+                                            <span id="displayGender">-</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Edit Mode -->
+                                    <form id="basicEditForm" class="edit-form" style="display: none;">
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="editFirstName">First Name</label>
+                                                <input type="text" id="editFirstName" name="firstName" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="editLastName">Last Name</label>
+                                                <input type="text" id="editLastName" name="lastName" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="editDOB">Date of Birth</label>
+                                                <input type="date" id="editDOB" name="dateOfBirth">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="editGender">Gender</label>
+                                                <select id="editGender" name="gender">
+                                                    <option value="">Select Gender</option>
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Save Changes
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" onclick="cancelEdit('basic')">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Contact Information -->
+                            <div class="form-section-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-address-book"></i> Contact Information</h3>
+                                    <button class="card-action-btn" onclick="toggleEditMode('contact')" id="editContactBtn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <!-- Display Mode -->
+                                    <div class="info-grid" id="contactDisplay">
+                                        <div class="info-field full-width">
+                                            <label>Email Address</label>
+                                            <span id="displayEmail">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Phone Number</label>
+                                            <span id="displayPhone">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Emergency Contact</label>
+                                            <span id="displayEmergencyContact">-</span>
+                                        </div>
+                                        <div class="info-field full-width">
+                                            <label>Address</label>
+                                            <span id="displayAddress">-</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Edit Mode -->
+                                    <form id="contactEditForm" class="edit-form" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="editEmail">Email Address</label>
+                                            <input type="email" id="editEmail" name="email" required>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group">
+                                                <label for="editPhone">Phone Number</label>
+                                                <input type="tel" id="editPhone" name="phone">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="editEmergencyContact">Emergency Contact</label>
+                                                <input type="text" id="editEmergencyContact" name="emergencyContact">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="editAddress">Address</label>
+                                            <textarea id="editAddress" name="address" rows="3"></textarea>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Save Changes
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" onclick="cancelEdit('contact')">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Academic Tab -->
+                    <div class="tab-content" id="academic-tab">
+                        <div class="form-section-grid">
+                            <!-- Academic Information -->
+                            <div class="form-section-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-graduation-cap"></i> Academic Information</h3>
+                                    <button class="card-action-btn" onclick="toggleEditMode('academic')" id="editAcademicBtn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <div class="card-content">
+                                    <!-- Display Mode -->
+                                    <div class="info-grid" id="academicDisplay">
+                                        <div class="info-field">
+                                            <label>Program</label>
+                                            <span id="displayProgram">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Student ID</label>
+                                            <span id="displayStudentID">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Enrollment Date</label>
+                                            <span id="displayEnrollmentDate">-</span>
+                                        </div>
+                                        <div class="info-field">
+                                            <label>Academic Year</label>
+                                            <span id="displayAcademicYear">-</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Edit Mode -->
+                                    <form id="academicEditForm" class="edit-form" style="display: none;">
+                                        <div class="form-group">
+                                            <label for="editProgram">Academic Program</label>
+                                            <select id="editProgram" name="program" required>
+                                                <option value="">Select Program</option>
+                                                <option value="BCA">BCA - Bachelor of Computer Applications</option>
+                                                <option value="MBA">MBA - Master of Business Administration</option>
+                                                <option value="MCA">MCA - Master of Computer Applications</option>
+                                                <option value="BCOM">BCOM - Bachelor of Commerce</option>
+                                                <option value="MCOM">MCOM - Master of Commerce</option>
+                                                <option value="BTEACH">B.Ed - Bachelor of Education</option>
+                                                <option value="MTECH">M.Tech - Master of Technology</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save"></i> Save Changes
+                                            </button>
+                                            <button type="button" class="btn btn-secondary" onclick="cancelEdit('academic')">
+                                                <i class="fas fa-times"></i> Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Performance Overview -->
+                            <div class="form-section-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-chart-bar"></i> Performance Overview</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="performance-metrics">
+                                        <div class="metric-item">
+                                            <div class="metric-value">95%</div>
+                                            <div class="metric-label">Attendance</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-value">8.5</div>
+                                            <div class="metric-label">GPA</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-value">12</div>
+                                            <div class="metric-label">Credits</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Tab -->
+                    <div class="tab-content" id="security-tab">
+                        <div class="form-section-grid">
+                            <!-- Password & Security -->
+                            <div class="form-section-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-shield-alt"></i> Password & Security</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="security-actions">
+                                        <button class="security-btn" data-action="change-password">
+                                            <i class="fas fa-key"></i>
+                                            <span>Change Password</span>
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                        <button class="security-btn" data-action="two-factor">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            <span>Two-Factor Authentication</span>
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                        <button class="security-btn" data-action="login-sessions">
+                                            <i class="fas fa-desktop"></i>
+                                            <span>Active Sessions</span>
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Account Actions -->
+                            <div class="form-section-card danger-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-exclamation-triangle"></i> Account Actions</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="danger-actions">
+                                        <button class="danger-btn" data-action="deactivate-account">
+                                            <i class="fas fa-user-times"></i>
+                                            <span>Deactivate Account</span>
+                                        </button>
+                                        <button class="danger-btn" data-action="delete-account">
+                                            <i class="fas fa-trash"></i>
+                                            <span>Delete Account</span>
+                                        </button>
+                                    </div>
+                                    <p class="danger-warning">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        These actions are permanent and cannot be undone.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Tab -->
+                    <div class="tab-content" id="preferences-tab">
+                        <div class="form-section-grid">
+                            <!-- Notification Preferences -->
+                            <div class="form-section-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-bell"></i> Notifications</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="preference-item">
+                                        <div class="preference-info">
+                                            <span class="preference-title">Email Notifications</span>
+                                            <span class="preference-desc">Receive updates via email</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="preference-item">
+                                        <div class="preference-info">
+                                            <span class="preference-title">SMS Notifications</span>
+                                            <span class="preference-desc">Receive urgent updates via SMS</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="preference-item">
+                                        <div class="preference-info">
+                                            <span class="preference-title">Marketing Communications</span>
+                                            <span class="preference-desc">Receive promotional content</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Privacy Settings -->
+                            <div class="form-section-card">
+                                <div class="card-header">
+                                    <h3><i class="fas fa-user-secret"></i> Privacy</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="preference-item">
+                                        <div class="preference-info">
+                                            <span class="preference-title">Profile Visibility</span>
+                                            <span class="preference-desc">Make profile visible to other students</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    <div class="preference-item">
+                                        <div class="preference-info">
+                                            <span class="preference-title">Contact Information Sharing</span>
+                                            <span class="preference-desc">Allow others to see contact details</span>
+                                        </div>
+                                        <label class="toggle-switch">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Panel -->
+                <div class="profile-action-panel">
+                    <button id="logoutBtn" class="btn btn-danger">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                    <button id="saveAllBtn" class="btn btn-success">
+                        <i class="fas fa-save"></i> Save All Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Completion Details Modal -->
+    <div class="completion-details-overlay" id="completionDetailsOverlay">
+        <div class="completion-details-modal">
+            <div class="completion-details-header">
+                <h3 class="completion-details-title">
+                    <i class="fas fa-list-check"></i>
+                    <span id="completionDetailsTitle">Profile Completion Details</span>
+                </h3>
+                <button class="completion-details-close" id="closeCompletionDetails">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="completion-field-list" id="completionFieldList">
+                <!-- Fields will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal-overlay" id="changePasswordOverlay">
+        <div class="modal-content change-password-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-key"></i> Change Password</h3>
+                <button class="modal-close" id="closeChangePassword">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm" class="change-password-form">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <div class="password-input-group">
+                            <input type="password" id="currentPassword" name="currentPassword" required>
+                            <button type="button" class="password-toggle" data-target="currentPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <div class="password-input-group">
+                            <input type="password" id="newPassword" name="newPassword" required minlength="6">
+                            <button type="button" class="password-toggle" data-target="newPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-requirements">
+                            <small>Password must be at least 6 characters long</small>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <div class="password-input-group">
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <button type="button" class="password-toggle" data-target="confirmPassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-match-indicator" id="passwordMatchIndicator"></div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelChangePassword">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submitChangePassword">
+                            <i class="fas fa-save"></i> Update Password
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js?v=2024"></script>
+    <script src="profile.js?v=2024"></script>
+</body>
+</html>

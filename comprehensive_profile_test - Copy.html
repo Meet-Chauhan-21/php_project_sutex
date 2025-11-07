@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile System Comprehensive Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .test-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-warning { background: #f59e0b; color: white; }
+        .btn-danger { background: #ef4444; color: white; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 6px; }
+        .success { background: #d1fae5; color: #065f46; }
+        .error { background: #fee2e2; color: #991b1b; }
+        .info { background: #dbeafe; color: #1e40af; }
+        .warning { background: #fef3c7; color: #92400e; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 6px; overflow-x: auto; font-size: 12px; }
+        .profile-preview { max-width: 150px; max-height: 150px; border: 2px solid #ddd; border-radius: 8px; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Profile System Comprehensive Test</h1>
+        
+        <div class="test-grid">
+            <!-- Login Test -->
+            <div class="test-card">
+                <h3>1. Login & Session Test</h3>
+                <input type="email" id="email" placeholder="Email" value="test@example.com">
+                <input type="password" id="password" placeholder="Password" value="testpassword">
+                <br>
+                <button class="btn btn-primary" onclick="testLogin()">Login</button>
+                <button class="btn btn-warning" onclick="testLogout()">Logout</button>
+                <div id="loginStatus"></div>
+            </div>
+
+            <!-- Profile Data Test -->
+            <div class="test-card">
+                <h3>2. Profile Data Test</h3>
+                <button class="btn btn-primary" onclick="testProfileLoad()">Load Profile</button>
+                <button class="btn btn-success" onclick="testDataSync()">Test Data Sync</button>
+                <div id="profileStatus"></div>
+            </div>
+
+            <!-- Profile Picture Test -->
+            <div class="test-card">
+                <h3>3. Profile Picture Test</h3>
+                <input type="file" id="imageFile" accept="image/*">
+                <br>
+                <button class="btn btn-primary" onclick="testPictureUpload()">Upload Picture</button>
+                <button class="btn btn-success" onclick="testPictureLoad()">Load Picture</button>
+                <button class="btn btn-danger" onclick="testPictureDelete()">Delete Picture</button>
+                <div id="pictureStatus"></div>
+                <img id="picturePreview" class="profile-preview" style="display: none;">
+            </div>
+
+            <!-- Change Password Test -->
+            <div class="test-card">
+                <h3>4. Change Password Test</h3>
+                <input type="password" id="currentPass" placeholder="Current Password" value="testpassword">
+                <input type="password" id="newPass" placeholder="New Password" value="newpass123">
+                <br>
+                <button class="btn btn-primary" onclick="testChangePassword()">Change Password</button>
+                <button class="btn btn-warning" onclick="testRevertPassword()">Revert Password</button>
+                <div id="passwordStatus"></div>
+            </div>
+
+            <!-- Database Test -->
+            <div class="test-card">
+                <h3>5. Database Test</h3>
+                <button class="btn btn-primary" onclick="testDatabase()">Check Database</button>
+                <button class="btn btn-success" onclick="testAllUsers()">Test All Users</button>
+                <div id="databaseStatus"></div>
+            </div>
+
+            <!-- System Test -->
+            <div class="test-card">
+                <h3>6. Full System Test</h3>
+                <button class="btn btn-success" onclick="runFullTest()">Run All Tests</button>
+                <button class="btn btn-warning" onclick="clearAllData()">Clear All Data</button>
+                <div id="systemStatus"></div>
+            </div>
+        </div>
+
+        <!-- Results Display -->
+        <div style="margin-top: 30px;">
+            <div class="test-card">
+                <h3>Test Results & Logs</h3>
+                <div id="testLogs" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+        let currentSession = null;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            testResults.push({ timestamp, message, type });
+            
+            const logsDiv = document.getElementById('testLogs');
+            const logEntry = document.createElement('div');
+            logEntry.className = `status ${type}`;
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const statusDiv = document.getElementById('loginStatus');
+            
+            log('Testing login...', 'info');
+            
+            try {
+                const response = await fetch('php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentSession = data.user;
+                    statusDiv.innerHTML = `<div class="status success">✅ Login successful! User: ${data.user.name}</div>`;
+                    log(`✅ Login successful for ${data.user.email}`, 'success');
+                } else {
+                    statusDiv.innerHTML = `<div class="status error">❌ Login failed: ${data.error}</div>`;
+                    log(`❌ Login failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ Login error: ${error.message}</div>`;
+                log(`❌ Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLogout() {
+            const statusDiv = document.getElementById('loginStatus');
+            
+            try {
+                const response = await fetch('php/logout_user.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                
+                currentSession = null;
+                statusDiv.innerHTML = '<div class="status success">✅ Logged out successfully</div>';
+                log('✅ Logout successful', 'success');
+            } catch (error) {
+                log(`❌ Logout error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testProfileLoad() {
+            const statusDiv = document.getElementById('profileStatus');
+            
+            log('Testing profile data load...', 'info');
+            
+            try {
+                const response = await fetch('php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.user;
+                    statusDiv.innerHTML = `
+                        <div class="status success">
+                            <strong>✅ Profile loaded successfully!</strong><br>
+                            Name: ${user.first_name} ${user.last_name}<br>
+                            Email: ${user.email}<br>
+                            Phone: ${user.phone || 'Not set'}<br>
+                            Program: ${user.program || 'Not set'}<br>
+                            Picture: ${user.profile_picture ? 'Yes' : 'No'}
+                        </div>
+                    `;
+                    log(`✅ Profile loaded for ${user.email}`, 'success');
+                } else {
+                    statusDiv.innerHTML = `<div class="status error">❌ Failed to load profile: ${data.error}</div>`;
+                    log(`❌ Profile load failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ Profile load error: ${error.message}</div>`;
+                log(`❌ Profile load error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDataSync() {
+            log('Testing data synchronization...', 'info');
+            
+            try {
+                const response = await fetch('test_user_data_sync.php');
+                const data = await response.text();
+                
+                document.getElementById('profileStatus').innerHTML += 
+                    `<div class="status info"><strong>Data Sync Test:</strong><br><pre>${data}</pre></div>`;
+                log('✅ Data sync test completed', 'success');
+            } catch (error) {
+                log(`❌ Data sync error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPictureUpload() {
+            const fileInput = document.getElementById('imageFile');
+            const statusDiv = document.getElementById('pictureStatus');
+            const previewImg = document.getElementById('picturePreview');
+            
+            if (!fileInput.files[0]) {
+                // Create a sample image
+                const canvas = document.createElement('canvas');
+                canvas.width = 100;
+                canvas.height = 100;
+                const ctx = canvas.getContext('2d');
+                
+                const gradient = ctx.createLinearGradient(0, 0, 100, 100);
+                gradient.addColorStop(0, '#ff6b6b');
+                gradient.addColorStop(1, '#4ecdc4');
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, 100, 100);
+                ctx.fillStyle = 'white';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('TEST', 50, 55);
+                
+                const base64 = canvas.toDataURL('image/png');
+                
+                log('Using generated sample image', 'info');
+                
+                try {
+                    const response = await fetch('php/update_user_profile.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ profile_picture: base64 })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        previewImg.src = base64;
+                        previewImg.style.display = 'block';
+                        statusDiv.innerHTML = '<div class="status success">✅ Sample picture uploaded!</div>';
+                        log('✅ Sample picture uploaded successfully', 'success');
+                    } else {
+                        statusDiv.innerHTML = `<div class="status error">❌ Upload failed: ${data.error}</div>`;
+                        log(`❌ Picture upload failed: ${data.error}`, 'error');
+                    }
+                } catch (error) {
+                    statusDiv.innerHTML = `<div class="status error">❌ Upload error: ${error.message}</div>`;
+                    log(`❌ Picture upload error: ${error.message}`, 'error');
+                }
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = async function(e) {
+                const base64 = e.target.result;
+                
+                try {
+                    const response = await fetch('php/update_user_profile.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ profile_picture: base64 })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        previewImg.src = base64;
+                        previewImg.style.display = 'block';
+                        statusDiv.innerHTML = '<div class="status success">✅ Picture uploaded successfully!</div>';
+                        log('✅ Picture uploaded successfully', 'success');
+                    } else {
+                        statusDiv.innerHTML = `<div class="status error">❌ Upload failed: ${data.error}</div>`;
+                        log(`❌ Picture upload failed: ${data.error}`, 'error');
+                    }
+                } catch (error) {
+                    statusDiv.innerHTML = `<div class="status error">❌ Upload error: ${error.message}</div>`;
+                    log(`❌ Picture upload error: ${error.message}`, 'error');
+                }
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        async function testPictureLoad() {
+            const statusDiv = document.getElementById('pictureStatus');
+            const previewImg = document.getElementById('picturePreview');
+            
+            log('Testing picture load...', 'info');
+            
+            try {
+                const response = await fetch('php/get_user_profile.php', {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.success && data.user.profile_picture) {
+                    previewImg.src = data.user.profile_picture;
+                    previewImg.style.display = 'block';
+                    statusDiv.innerHTML = '<div class="status success">✅ Picture loaded from database!</div>';
+                    log('✅ Picture loaded from database', 'success');
+                } else {
+                    previewImg.style.display = 'none';
+                    statusDiv.innerHTML = '<div class="status warning">⚠️ No picture found in database</div>';
+                    log('⚠️ No picture found in database', 'warning');
+                }
+            } catch (error) {
+                log(`❌ Picture load error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPictureDelete() {
+            const statusDiv = document.getElementById('pictureStatus');
+            const previewImg = document.getElementById('picturePreview');
+            
+            log('Testing picture deletion...', 'info');
+            
+            try {
+                const response = await fetch('php/update_user_profile.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ profile_picture: null })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    previewImg.style.display = 'none';
+                    statusDiv.innerHTML = '<div class="status success">✅ Picture deleted successfully!</div>';
+                    log('✅ Picture deleted successfully', 'success');
+                } else {
+                    log(`❌ Picture deletion failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Picture deletion error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testChangePassword() {
+            const currentPass = document.getElementById('currentPass').value;
+            const newPass = document.getElementById('newPass').value;
+            const statusDiv = document.getElementById('passwordStatus');
+            
+            log('Testing password change...', 'info');
+            
+            try {
+                const response = await fetch('php/change_password.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        currentPassword: currentPass,
+                        newPassword: newPass
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    statusDiv.innerHTML = '<div class="status success">✅ Password changed successfully!</div>';
+                    log('✅ Password changed successfully', 'success');
+                } else {
+                    statusDiv.innerHTML = `<div class="status error">❌ Password change failed: ${data.error}</div>`;
+                    log(`❌ Password change failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="status error">❌ Password change error: ${error.message}</div>`;
+                log(`❌ Password change error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testRevertPassword() {
+            log('Reverting password to original...', 'info');
+            
+            try {
+                const response = await fetch('php/change_password.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        currentPassword: 'newpass123',
+                        newPassword: 'testpassword'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('passwordStatus').innerHTML = '<div class="status success">✅ Password reverted!</div>';
+                    log('✅ Password reverted to original', 'success');
+                } else {
+                    log(`❌ Password revert failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Password revert error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDatabase() {
+            log('Testing database structure...', 'info');
+            
+            try {
+                const response = await fetch('check_database_structure.php');
+                const data = await response.text();
+                
+                document.getElementById('databaseStatus').innerHTML = 
+                    `<div class="status info"><strong>Database Test:</strong><br><pre>${data}</pre></div>`;
+                log('✅ Database test completed', 'success');
+            } catch (error) {
+                log(`❌ Database test error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAllUsers() {
+            log('Testing all users data...', 'info');
+            
+            try {
+                const response = await fetch('test_user_data_sync.php');
+                const data = await response.text();
+                
+                document.getElementById('databaseStatus').innerHTML += 
+                    `<div class="status info"><strong>All Users Test:</strong><br><pre>${data}</pre></div>`;
+                log('✅ All users test completed', 'success');
+            } catch (error) {
+                log(`❌ All users test error: ${error.message}`, 'error');
+            }
+        }
+
+        async function runFullTest() {
+            log('🚀 Starting comprehensive test suite...', 'info');
+            
+            await testLogin();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testProfileLoad();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testPictureUpload();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testPictureLoad();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testChangePassword();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testRevertPassword();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            log('🏁 Comprehensive test suite completed!', 'success');
+        }
+
+        function clearAllData() {
+            localStorage.clear();
+            sessionStorage.clear();
+            document.getElementById('testLogs').innerHTML = '';
+            testResults = [];
+            log('🧹 All local data cleared', 'warning');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('🔧 Profile System Test Suite loaded', 'info');
+        });
+    </script>
+</body>
+</html>

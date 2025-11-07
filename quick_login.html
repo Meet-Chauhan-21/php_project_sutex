@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Login - VidyaGuru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        .button {
+            width: 100%;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin: 5px 0;
+        }
+        .button:hover {
+            background: #5a6fd8;
+        }
+        .quick-login {
+            background: #28a745;
+        }
+        .quick-login:hover {
+            background: #218838;
+        }
+        .result {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .links {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>🚀 Quick Login</h1>
+        
+        <!-- Quick Login Buttons -->
+        <div class="form-group">
+            <button class="button quick-login" onclick="quickLogin('jane@example.com')">Login as Jane Smith</button>
+            <button class="button quick-login" onclick="quickLogin('john@example.com')">Login as John Doe</button>
+            <button class="button quick-login" onclick="quickLogin('mohit@gmail.com')">Login as Mohit</button>
+        </div>
+
+        <!-- Manual Login Form -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Default: password123">
+            </div>
+            <button type="submit" class="button">Login</button>
+        </form>
+
+        <div id="result" class="result" style="display: none;"></div>
+
+        <div class="links">
+            <a href="profile.html">Go to Profile</a>
+            <a href="admin.html">Admin Panel</a>
+            <a href="index.html">Home</a>
+        </div>
+    </div>
+
+    <script>
+        async function quickLogin(email) {
+            await doLogin(email, 'password123');
+        }
+
+        async function doLogin(email, password) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = 'Logging in...';
+            
+            try {
+                const response = await fetch('/phpwebsite/php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                console.log('Login response:', result);
+                
+                if (result.success) {
+                    // Set localStorage for compatibility
+                    const sessionData = {
+                        userId: result.user.id,
+                        email: result.user.email,
+                        firstName: result.user.first_name,
+                        lastName: result.user.last_name,
+                        role: 'student'
+                    };
+                    localStorage.setItem('vidyaGuruSession', JSON.stringify(sessionData));
+                    localStorage.setItem('userLoggedIn', 'true');
+                    
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Login successful! Welcome ${result.user.first_name}`;
+                    
+                    // Redirect to profile page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 2000);
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Login failed: ${result.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Network error: ${error.message}`;
+                console.error('Login error:', error);
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value || 'password123';
+            await doLogin(email, password);
+        });
+
+        // Check if already logged in
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch('/phpwebsite/php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const resultDiv = document.getElementById('result');
+                    resultDiv.style.display = 'block';
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `Already logged in as ${result.user.first_name}. <a href="profile.html">Go to Profile</a>`;
+                }
+            } catch (error) {
+                console.log('Not logged in');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Edit Test - VidyaGuru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .button:hover {
+            background: #005a87;
+        }
+        .result {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: #e9ecef;
+            min-height: 30px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 11px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Profile Edit Modal Test</h1>
+        <p><strong>Step-by-step testing of profile edit functionality</strong></p>
+
+        <!-- Step 1: Login -->
+        <div class="section">
+            <h3>Step 1: Authentication</h3>
+            <button class="button" onclick="doLogin()">Login as Jane</button>
+            <button class="button" onclick="checkAuthStatus()">Check Auth</button>
+            <div id="authResult" class="result">Click login to start...</div>
+        </div>
+
+        <!-- Step 2: Load Scripts -->
+        <div class="section">
+            <h3>Step 2: Load Profile Scripts</h3>
+            <button class="button" onclick="loadScripts()">Load Scripts</button>
+            <div id="scriptResult" class="result">Click to load profile.js and auth.js...</div>
+        </div>
+
+        <!-- Step 3: Test Modal Functions -->
+        <div class="section">
+            <h3>Step 3: Test Modal Functions Directly</h3>
+            <button class="button" onclick="testBasicModal()">Test Basic Info Modal</button>
+            <button class="button" onclick="testContactModal()">Test Contact Modal</button>
+            <button class="button" onclick="testAcademicModal()">Test Academic Modal</button>
+            <div id="modalResult" class="result">Load scripts first, then test modals...</div>
+        </div>
+
+        <!-- Step 4: Test Button Events -->
+        <div class="section">
+            <h3>Step 4: Test Button Event Handlers</h3>
+            <button class="button" data-action="edit-profile">Edit Profile (data-action)</button>
+            <button class="button" data-action="edit-basic">Edit Basic (data-action)</button>
+            <button class="button" onclick="handleQuickAction('edit-profile')">Quick Action Test</button>
+            <div id="buttonResult" class="result">Test button handlers above...</div>
+        </div>
+
+        <!-- Console Log -->
+        <div class="section">
+            <h3>Console Log</h3>
+            <div id="consoleLog" class="log"></div>
+            <button class="button" onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <script>
+        let scriptsLoaded = false;
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('consoleLog');
+            const color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'blue';
+            logDiv.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('consoleLog').innerHTML = '';
+        }
+
+        async function doLogin() {
+            log('Starting login process...');
+            const resultDiv = document.getElementById('authResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: 'jane@example.com',
+                        password: 'password123'
+                    })
+                });
+                
+                const result = await response.json();
+                log(`Login response: ${JSON.stringify(result)}`);
+                
+                if (result.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Login successful! Welcome ${result.user.first_name}`;
+                    
+                    // Set localStorage for compatibility
+                    const sessionData = {
+                        userId: result.user.id,
+                        email: result.user.email,
+                        firstName: result.user.first_name,
+                        lastName: result.user.last_name,
+                        role: 'student'
+                    };
+                    localStorage.setItem('vidyaGuruSession', JSON.stringify(sessionData));
+                    localStorage.setItem('userLoggedIn', 'true');
+                    log('Session data stored in localStorage', 'success');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Login failed: ${result.error}`;
+                    log(`Login failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Network error: ${error.message}`;
+                log(`Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkAuthStatus() {
+            log('Checking authentication status...');
+            const resultDiv = document.getElementById('authResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Authenticated: ${result.user.first_name} ${result.user.last_name}`;
+                    log('User is authenticated', 'success');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Not authenticated: ${result.error}`;
+                    log(`Not authenticated: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Auth check error: ${error.message}`;
+                log(`Auth check error: ${error.message}`, 'error');
+            }
+        }
+
+        function loadScripts() {
+            log('Loading profile scripts...');
+            const resultDiv = document.getElementById('scriptResult');
+            
+            if (scriptsLoaded) {
+                resultDiv.innerHTML = '✅ Scripts already loaded';
+                return;
+            }
+
+            // Load auth.js first
+            const authScript = document.createElement('script');
+            authScript.src = '/phpwebsite/auth.js';
+            authScript.onload = function() {
+                log('auth.js loaded successfully', 'success');
+                
+                // Then load profile.js
+                const profileScript = document.createElement('script');
+                profileScript.src = '/phpwebsite/profile.js';
+                profileScript.onload = function() {
+                    log('profile.js loaded successfully', 'success');
+                    scriptsLoaded = true;
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '✅ Both scripts loaded successfully';
+                    
+                    // Check if functions are available
+                    setTimeout(() => {
+                        const functions = [
+                            'showEditBasicInfoModal',
+                            'showEditContactInfoModal', 
+                            'showEditAcademicInfoModal',
+                            'handleQuickAction'
+                        ];
+                        
+                        functions.forEach(funcName => {
+                            if (window[funcName]) {
+                                log(`✅ Function ${funcName} is available`, 'success');
+                            } else {
+                                log(`❌ Function ${funcName} is NOT available`, 'error');
+                            }
+                        });
+                    }, 500);
+                };
+                profileScript.onerror = function() {
+                    log('Failed to load profile.js', 'error');
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = '❌ Failed to load profile.js';
+                };
+                document.head.appendChild(profileScript);
+            };
+            authScript.onerror = function() {
+                log('Failed to load auth.js', 'error');
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '❌ Failed to load auth.js';
+            };
+            document.head.appendChild(authScript);
+        }
+
+        function testBasicModal() {
+            log('Testing basic info modal...');
+            const resultDiv = document.getElementById('modalResult');
+            
+            if (!scriptsLoaded) {
+                resultDiv.innerHTML = '❌ Load scripts first';
+                return;
+            }
+            
+            try {
+                if (window.showEditBasicInfoModal) {
+                    showEditBasicInfoModal();
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '✅ Basic info modal called';
+                    log('Basic info modal function called', 'success');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = '❌ showEditBasicInfoModal function not found';
+                    log('showEditBasicInfoModal function not found', 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                log(`Basic modal error: ${error.message}`, 'error');
+            }
+        }
+
+        function testContactModal() {
+            log('Testing contact modal...');
+            const resultDiv = document.getElementById('modalResult');
+            
+            try {
+                if (window.showEditContactInfoModal) {
+                    showEditContactInfoModal();
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '✅ Contact modal called';
+                    log('Contact modal function called', 'success');
+                } else {
+                    resultDiv.innerHTML = '❌ showEditContactInfoModal function not found';
+                    log('showEditContactInfoModal function not found', 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                log(`Contact modal error: ${error.message}`, 'error');
+            }
+        }
+
+        function testAcademicModal() {
+            log('Testing academic modal...');
+            const resultDiv = document.getElementById('modalResult');
+            
+            try {
+                if (window.showEditAcademicInfoModal) {
+                    showEditAcademicInfoModal();
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '✅ Academic modal called';
+                    log('Academic modal function called', 'success');
+                } else {
+                    resultDiv.innerHTML = '❌ showEditAcademicInfoModal function not found';
+                    log('showEditAcademicInfoModal function not found', 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Error: ${error.message}`;
+                log(`Academic modal error: ${error.message}`, 'error');
+            }
+        }
+
+        // Listen for button clicks
+        document.addEventListener('click', function(e) {
+            const target = e.target;
+            const action = target.getAttribute('data-action');
+            
+            if (action) {
+                log(`Button clicked with action: ${action}`);
+                document.getElementById('buttonResult').innerHTML = `Button clicked: ${action}`;
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Profile edit test page loaded');
+        });
+    </script>
+</body>
+</html>

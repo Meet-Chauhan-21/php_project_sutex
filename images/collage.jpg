@@ -1,0 +1,51 @@
+<!-- College background image placeholder -->
+<svg width="1600" height="1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87ceeb;stop-opacity:1" />
+      <stop offset="70%" style="stop-color:#b0e0e6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#fffafa;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="buildingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e5e7eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d1d5db;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Sky background -->
+  <rect width="1600" height="1200" fill="url(#skyGrad)"/>
+  
+  <!-- Simple building silhouettes -->
+  <rect x="200" y="600" width="300" height="400" fill="url(#buildingGrad)"/>
+  <rect x="550" y="500" width="250" height="500" fill="url(#buildingGrad)"/>
+  <rect x="850" y="550" width="200" height="450" fill="url(#buildingGrad)"/>
+  <rect x="1100" y="650" width="180" height="350" fill="url(#buildingGrad)"/>
+  
+  <!-- Windows -->
+  <rect x="230" y="650" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  <rect x="270" y="650" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  <rect x="310" y="650" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  <rect x="350" y="650" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  
+  <rect x="580" y="550" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  <rect x="620" y="550" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  <rect x="660" y="550" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  <rect x="700" y="550" width="20" height="30" fill="#4682b4" opacity="0.8"/>
+  
+  <!-- Trees/vegetation -->
+  <ellipse cx="150" cy="900" rx="50" ry="80" fill="#10b981" opacity="0.6"/>
+  <ellipse cx="380" cy="950" rx="30" ry="50" fill="#10b981" opacity="0.6"/>
+  <ellipse cx="1300" cy="950" rx="60" ry="90" fill="#10b981" opacity="0.6"/>
+  
+  <!-- Path/walkway -->
+  <polygon points="0,1000 400,1000 450,1200 0,1200" fill="#d1d5db" opacity="0.3"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="300" cy="200" rx="40" ry="25" fill="white" opacity="0.7"/>
+  <ellipse cx="320" cy="190" rx="30" ry="20" fill="white" opacity="0.7"/>
+  <ellipse cx="340" cy="200" rx="35" ry="22" fill="white" opacity="0.7"/>
+  
+  <ellipse cx="1200" cy="150" rx="50" ry="30" fill="white" opacity="0.6"/>
+  <ellipse cx="1230" cy="140" rx="40" ry="25" fill="white" opacity="0.6"/>
+  <ellipse cx="1260" cy="150" rx="45" ry="28" fill="white" opacity="0.6"/>
+</svg>

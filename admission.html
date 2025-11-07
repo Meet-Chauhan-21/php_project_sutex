@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apply for admission to VidyaGuru College - Submit your application for BCA, BBA, BCom, BTeach, MBA and other programs.">
+    <meta name="keywords" content="admission, application, VidyaGuru College, enrollment, BCA, BBA, BCom">
+    <title>Admission Application - VidyaGuru College</title>
+    <link rel="stylesheet" href="assets/fonts-local.css">
+    <link rel="stylesheet" href="assets/fontawesome-local.css">
+    <link rel="stylesheet" href="new.css">
+    <link rel="stylesheet" href="assets/professional-enhancements.css">
+    <link rel="stylesheet" href="assets/compact-design.css">
+    <link rel="stylesheet" href="assets/admission-form.css">
+</head>
+<body>
+    <!-- Header - Same as index.html -->
+    <header id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">VG</div>
+                <span>VidyaGuru</span>
+            </a>
+            <nav id="nav" role="navigation" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#programs">Programs</a></li>
+                    <li><a href="index.html#features">Features</a></li>
+                    <li><a href="index.html#testimonials">Reviews</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="#" id="profileLink">Profile</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle mobile menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Admission Hero Section -->
+    <section class="admission-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>
+                    <i class="fas fa-graduation-cap"></i> Admission Application Form
+                </h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admission Form Section -->
+    <section class="admission-section">
+        
+            <div class="admission-container">
+                <!-- Form -->
+                <div class="admission-form-wrapper">
+                    <form id="admissionForm" action="php/submit_admission.php" method="POST" enctype="multipart/form-data">
+                        
+                        <!-- Personal Information Section -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="email">Email Address *</label>
+                                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number *</label>
+                                    <input type="tel" id="phone" name="phone" required placeholder="+91 9876543210">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth *</label>
+                                    <input type="date" id="dob" name="dob" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender *</label>
+                                    <select id="gender" name="gender" required>
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nationality">Nationality *</label>
+                                    <input type="text" id="nationality" name="nationality" required placeholder="Enter your nationality" value="Indian">
+                                </div>
+                                <div class="form-group">
+                                    <label for="category">Category *</label>
+                                    <select id="category" name="category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="general">General</option>
+                                        <option value="obc">OBC</option>
+                                        <option value="sc">SC</option>
+                                        <option value="st">ST</option>
+                                        <option value="ews">EWS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Program Selection Section -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-book-open"></i> Program Selection</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="program">Preferred Program *</label>
+                                    <select id="program" name="program" required>
+                                        <option value="">Select Program</option>
+                                        <option value="bca">Bachelor of Computer Applications (BCA)</option>
+                                        <option value="bba">Bachelor of Business Administration (BBA)</option>
+                                        <option value="bcom">Bachelor of Commerce (B.Com)</option>
+                                        <option value="bteach">Bachelor of Teaching (B.Ed)</option>
+                                        <option value="mba">Master of Business Administration (MBA)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="specialization">Specialization (if applicable)</label>
+                                    <input type="text" id="specialization" name="specialization" placeholder="Enter specialization">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="session">Academic Session *</label>
+                                    <select id="session" name="session" required>
+                                        <option value="">Select Session</option>
+                                        <option value="2024-25">2024-25</option>
+                                        <option value="2025-26">2025-26</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="mode">Mode of Study *</label>
+                                    <select id="mode" name="mode" required>
+                                        <option value="">Select Mode</option>
+                                        <option value="regular">Regular</option>
+                                        <option value="distance">Distance Learning</option>
+                                        <option value="online">Online</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Information Section -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-map-marker-alt"></i> Address Information</h3>
+                            
+                            <div class="form-group full-width">
+                                <label for="address">Current Address *</label>
+                                <textarea id="address" name="address" required placeholder="Enter your complete current address with landmarks"></textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="city">City *</label>
+                                    <input type="text" id="city" name="city" required placeholder="Enter city">
+                                </div>
+                                <div class="form-group">
+                                    <label for="state">State *</label>
+                                    <input type="text" id="state" name="state" required placeholder="Enter state">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="pincode">PIN Code *</label>
+                                    <input type="text" id="pincode" name="pincode" required placeholder="Enter PIN code" pattern="[0-9]{6}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="country">Country *</label>
+                                    <input type="text" id="country" name="country" required placeholder="Enter country" value="India">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Educational Background Section -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-graduation-cap"></i> Educational Background</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="lastQualification">Highest Qualification *</label>
+                                    <select id="lastQualification" name="lastQualification" required>
+                                        <option value="">Select Qualification</option>
+                                        <option value="10th">10th Standard</option>
+                                        <option value="12th">12th Standard</option>
+                                        <option value="diploma">Diploma</option>
+                                        <option value="graduation">Graduation</option>
+                                        <option value="postgraduation">Post Graduation</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="board">Board/University *</label>
+                                    <input type="text" id="board" name="board" required placeholder="Enter board/university name">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="passingYear">Year of Passing *</label>
+                                    <input type="number" id="passingYear" name="passingYear" required placeholder="YYYY" min="1990" max="2024">
+                                </div>
+                                <div class="form-group">
+                                    <label for="percentage">Percentage/CGPA *</label>
+                                    <input type="text" id="percentage" name="percentage" required placeholder="Enter percentage or CGPA">
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="schoolCollege">School/College Name *</label>
+                                <input type="text" id="schoolCollege" name="schoolCollege" required placeholder="Enter your last attended institution name">
+                            </div>
+                        </div>
+
+                        <!-- Guardian/Parent Information Section -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-user-friends"></i> Guardian/Parent Information</h3>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="guardianName">Guardian/Parent Name *</label>
+                                    <input type="text" id="guardianName" name="guardianName" required placeholder="Enter guardian/parent name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="guardianPhone">Guardian/Parent Phone *</label>
+                                    <input type="tel" id="guardianPhone" name="guardianPhone" required placeholder="Enter guardian/parent phone number" pattern="[0-9]{10}">
+                                </div>
+                            </div>
+                        </div>
+                       
+                        <!-- Declaration Section -->
+                        <div class="form-section">
+                            <div class="declaration">
+                                <input type="checkbox" id="declaration" name="declaration" required>
+                                <label for="declaration">
+                                    <strong>Declaration:</strong> I hereby declare that all the information provided above is true and accurate to the best of my knowledge. I understand that any false information may lead to the rejection of my application or cancellation of admission. I agree to abide by the rules and regulations of VidyaGuru College and authorize the college to verify the information provided.
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline-secondary" onclick="resetForm()">
+                                <i class="fas fa-undo"></i> Reset Form
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Submit Application
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - Same as index.html -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>About VidyaGuru</h3>
+                    <p>VidyaGuru College is a premier educational institution offering quality undergraduate programs in computer applications, business, commerce, and education.</p>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@vidyaguru.edu</span>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#programs">Programs</a></li>
+                        <li><a href="index.html#features">Why Choose Us</a></li>
+                        <li><a href="index.html#testimonials">Testimonials</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Programs</h3>
+                    <ul class="footer-links">
+                        <li><a href="admission.html?program=BCA">Bachelor of Computer Applications</a></li>
+                        <li><a href="admission.html?program=BBA">Bachelor of Business Administration</a></li>
+                        <li><a href="admission.html?program=BCom">Bachelor of Commerce</a></li>
+                        <li><a href="admission.html?program=BTeach">Bachelor of Teaching</a></li>
+                        <li><a href="admission.html">Admission Process</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for the latest updates on programs, events, and admission notices.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 VidyaGuru College. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+
+    <script>
+        // Wrap all code in DOMContentLoaded to ensure elements exist
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize form progress
+            updateProgress(1);
+            
+            // Auto-fill form if user data exists in localStorage
+            const userEmail = localStorage.getItem('userEmail');
+            const userName = localStorage.getItem('userName');
+            
+            console.log('Pre-filling form with user data if available:', {
+                userEmail,
+                userName
+            });
+            
+            // Pre-fill form if user data exists
+            if (userEmail) {
+                const emailField = document.getElementById('email');
+                if (emailField && !emailField.value) {
+                    emailField.value = userEmail;
+                }
+            }
+            
+            if (userName) {
+                const names = userName.split(' ');
+                const firstNameField = document.getElementById('firstName');
+                const lastNameField = document.getElementById('lastName');
+                
+                if (firstNameField && !firstNameField.value && names.length > 0) {
+                    firstNameField.value = names[0];
+                }
+                if (lastNameField && !lastNameField.value && names.length > 1) {
+                    lastNameField.value = names.slice(1).join(' ');
+                }
+            }
+
+            // Form validation and submission
+            const admissionForm = document.getElementById('admissionForm');
+            if (admissionForm) {
+                admissionForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Validate declaration checkbox
+                    const declaration = document.getElementById('declaration');
+                    if (!declaration.checked) {
+                        alert('Please accept the declaration to submit your application.');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    const submitBtn = document.querySelector('.btn-primary');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        // Prepare form data
+                        const formData = new FormData(admissionForm);
+                        
+                        // Add user info from localStorage if available
+                        const userId = localStorage.getItem('userId');
+                        const userEmail = localStorage.getItem('userEmail');
+                        
+                        if (userId) formData.append('userId', userId);
+                        if (userEmail) formData.append('userEmail', userEmail);
+                        
+                        // Submit to backend
+                        const response = await fetch('php/submit_admission.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            alert(result.message || 'Application submitted successfully! You will receive a confirmation email shortly.');
+                            
+                            // Clear saved form data
+                            const formInputs = document.querySelectorAll('#admissionForm input, #admissionForm select, #admissionForm textarea');
+                            formInputs.forEach(input => {
+                                localStorage.removeItem('admission_' + input.name);
+                            });
+                            
+                            // Reset form
+                            admissionForm.reset();
+                            
+                            // Redirect to profile or home page after short delay
+                            setTimeout(() => {
+                                window.location.href = 'profile.html';
+                            }, 2000);
+                        } else {
+                            alert('Error: ' + (result.error || 'Failed to submit application. Please try again.'));
+                        }
+                    } catch (error) {
+                        console.error('Submission error:', error);
+                        alert('An error occurred while submitting your application. Please try again.');
+                    } finally {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }
+                });
+            }
+
+            // Auto-save form data to localStorage
+            const formInputs = document.querySelectorAll('#admissionForm input, #admissionForm select, #admissionForm textarea');
+            formInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    localStorage.setItem('admission_' + this.name, this.value);
+                });
+                
+                // Load saved data
+                const savedValue = localStorage.getItem('admission_' + input.name);
+                if (savedValue) {
+                    input.value = savedValue;
+                }
+            });
+
+            // Real-time form validation
+            formInputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && !this.value.trim()) {
+                        this.style.borderColor = '#ef4444';
+                    } else if (this.type === 'email' && this.value && !this.value.includes('@')) {
+                        this.style.borderColor = '#ef4444';
+                    } else {
+                        this.style.borderColor = '#10b981';
+                    }
+                });
+            });
+        });
+
+        // Reset form function
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form? All data will be lost.')) {
+                document.getElementById('admissionForm').reset();
+                updateProgress(1);
+                // Clear localStorage
+                const formInputs = document.querySelectorAll('#admissionForm input, #admissionForm select, #admissionForm textarea');
+                formInputs.forEach(input => {
+                    localStorage.removeItem('admission_' + input.name);
+                });
+            }
+        }
+
+        // Form progress tracking
+        function updateProgress(step) {
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach((stepEl, index) => {
+                stepEl.classList.remove('active', 'completed');
+                if (index + 1 < step) {
+                    stepEl.classList.add('completed');
+                } else if (index + 1 === step) {
+                    stepEl.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

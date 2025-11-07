@@ -1,0 +1,5 @@
+<IfModule mod_headers.c>
+    # Relax COOP/COEP on this app to allow OAuth popups/postMessage
+    Header always unset Cross-Origin-Opener-Policy
+    Header always unset Cross-Origin-Embedder-Policy
+</IfModule>

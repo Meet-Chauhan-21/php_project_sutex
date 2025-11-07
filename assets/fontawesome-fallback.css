@@ -1,0 +1,38 @@
+/* FontAwesome Fallback - Text-based icons for offline use */
+
+/* Base icon styles */
+.fa, .fas, .far, .fab {
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    display: inline-block;
+    text-rendering: auto;
+}
+
+/* Icon replacements using Unicode symbols */
+.fa-eye::before { content: "👁"; }
+.fa-eye-slash::before { content: "🚫"; }
+.fa-bars::before { content: "☰"; }
+.fa-user-circle::before { content: "👤"; }
+.fa-sign-in-alt::before { content: "🔑"; }
+.fa-facebook-f::before { content: "f"; background: #4267B2; color: white; padding: 2px 4px; border-radius: 3px; }
+.fa-google::before { content: "G"; background: #4285F4; color: white; padding: 2px 4px; border-radius: 3px; }
+.fa-check-circle::before { content: "✓"; color: green; }
+.fa-exclamation-circle::before { content: "⚠"; color: orange; }
+
+/* Ensure proper spacing */
+.fa + * { margin-left: 4px; }
+* + .fa { margin-left: 4px; }
+
+/* Password toggle button specific styling */
+.password-toggle .fa {
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Social button icons */
+.btn-social .fa {
+    margin-right: 8px;
+    font-size: 16px;
+}

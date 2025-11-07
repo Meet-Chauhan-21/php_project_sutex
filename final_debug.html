@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Profile Edit Debug - VidyaGuru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f8f9fa;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover { background: #005a87; }
+        .button.success { background: #28a745; }
+        .button.danger { background: #dc3545; }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: #e9ecef;
+            min-height: 20px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Final Profile Edit Debug Test</h1>
+        <p><strong>Complete diagnostic test for profile editing issues</strong></p>
+
+        <!-- Test 1: Login -->
+        <div class="test-section">
+            <h3>Test 1: Authentication</h3>
+            <button class="button" onclick="testLogin()">Login as Jane</button>
+            <button class="button" onclick="checkAuth()">Check Auth</button>
+            <button class="button danger" onclick="testLogout()">Logout</button>
+            <div id="authResult" class="result">Authentication test results...</div>
+        </div>
+
+        <!-- Test 2: Profile Page Elements -->
+        <div class="test-section">
+            <h3>Test 2: Profile Page Elements</h3>
+            <button class="button" onclick="checkProfileElements()">Check Profile Elements</button>
+            <button class="button" onclick="simulateClick()">Simulate Edit Button Click</button>
+            <div id="elementsResult" class="result">Profile elements test results...</div>
+        </div>
+
+        <!-- Test 3: Direct Function Tests -->
+        <div class="test-section">
+            <h3>Test 3: Direct Function Tests</h3>
+            <button class="button" onclick="testDirectFunction()">Test showEditBasicInfoModal</button>
+            <button class="button" onclick="testWithData()">Test with Manual Data</button>
+            <div id="functionResult" class="result">Function test results...</div>
+        </div>
+
+        <!-- Test 4: Profile Page in Frame -->
+        <div class="test-section">
+            <h3>Test 4: Profile Page Frame</h3>
+            <button class="button success" onclick="loadProfileFrame()">Load Profile Page</button>
+            <button class="button" onclick="testFrameButtons()">Test Frame Buttons</button>
+            <div id="frameResult" class="result">Frame test results...</div>
+            <iframe id="profileFrame" src="about:blank" width="100%" height="400" style="border: 1px solid #ddd; margin-top: 10px; display: none;"></iframe>
+        </div>
+
+        <!-- Console Log -->
+        <div class="test-section">
+            <h3>Debug Console</h3>
+            <div id="debugLog" class="log"></div>
+            <button class="button" onclick="clearDebugLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <script src="/phpwebsite/auth.js"></script>
+    <script src="/phpwebsite/profile.js"></script>
+    <script>
+        function debugLog(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('debugLog');
+            const colors = {
+                'info': 'blue',
+                'success': 'green',
+                'error': 'red',
+                'warning': 'orange'
+            };
+            logDiv.innerHTML += `<div style="color: ${colors[type] || 'black'}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function clearDebugLog() {
+            document.getElementById('debugLog').innerHTML = '';
+        }
+
+        async function testLogin() {
+            debugLog('Starting login test...', 'info');
+            const resultDiv = document.getElementById('authResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: 'jane@example.com',
+                        password: 'password123'
+                    })
+                });
+                
+                const result = await response.json();
+                debugLog(`Login response: ${JSON.stringify(result)}`, 'info');
+                
+                if (result.success) {
+                    const sessionData = {
+                        userId: result.user.id,
+                        email: result.user.email,
+                        firstName: result.user.first_name,
+                        lastName: result.user.last_name,
+                        role: 'student'
+                    };
+                    localStorage.setItem('vidyaGuruSession', JSON.stringify(sessionData));
+                    localStorage.setItem('userLoggedIn', 'true');
+                    
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Login successful! Welcome ${result.user.first_name}`;
+                    debugLog('Login successful, localStorage updated', 'success');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Login failed: ${result.error}`;
+                    debugLog(`Login failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Network error: ${error.message}`;
+                debugLog(`Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkAuth() {
+            debugLog('Checking authentication...', 'info');
+            const resultDiv = document.getElementById('authResult');
+            
+            // Check localStorage
+            const localSession = localStorage.getItem('vidyaGuruSession');
+            const userLoggedIn = localStorage.getItem('userLoggedIn');
+            debugLog(`localStorage session: ${localSession}`, 'info');
+            debugLog(`userLoggedIn flag: ${userLoggedIn}`, 'info');
+            
+            // Check PHP backend
+            try {
+                const response = await fetch('/phpwebsite/php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                const result = await response.json();
+                debugLog(`PHP auth response: ${JSON.stringify(result)}`, 'info');
+                
+                if (result.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Authenticated: ${result.user.first_name} ${result.user.last_name}`;
+                    debugLog('PHP authentication successful', 'success');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Not authenticated: ${result.error}`;
+                    debugLog(`PHP auth failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Auth check error: ${error.message}`;
+                debugLog(`Auth check error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testLogout() {
+            debugLog('Testing logout...', 'info');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/logout_user.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    localStorage.removeItem('vidyaGuruSession');
+                    localStorage.removeItem('userLoggedIn');
+                    document.getElementById('authResult').innerHTML = '✅ Logged out successfully';
+                    debugLog('Logout successful', 'success');
+                } else {
+                    debugLog(`Logout failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                debugLog(`Logout error: ${error.message}`, 'error');
+            }
+        }
+
+        function checkProfileElements() {
+            debugLog('Checking profile page elements...', 'info');
+            const resultDiv = document.getElementById('elementsResult');
+            
+            const elements = [
+                'quickEditBtn',
+                'settingsBtn',
+                'notLoggedIn',
+                'profileContent'
+            ];
+            
+            let foundElements = 0;
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    foundElements++;
+                    debugLog(`✅ Found element: ${id}`, 'success');
+                } else {
+                    debugLog(`❌ Missing element: ${id}`, 'error');
+                }
+            });
+            
+            // Check for edit buttons
+            const editButtons = document.querySelectorAll('[data-action="edit-profile"], [data-action="edit-basic"]');
+            debugLog(`Found ${editButtons.length} edit buttons`, 'info');
+            
+            resultDiv.innerHTML = `Found ${foundElements}/${elements.length} profile elements, ${editButtons.length} edit buttons`;
+        }
+
+        function simulateClick() {
+            debugLog('Simulating edit button click...', 'info');
+            const resultDiv = document.getElementById('elementsResult');
+            
+            // Try to find and click an edit button
+            const editButton = document.querySelector('[data-action="edit-profile"]');
+            if (editButton) {
+                debugLog('Found edit button, simulating click...', 'info');
+                editButton.click();
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = '✅ Edit button clicked';
+            } else {
+                debugLog('No edit button found', 'error');
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '❌ No edit button found';
+            }
+        }
+
+        function testDirectFunction() {
+            debugLog('Testing showEditBasicInfoModal function directly...', 'info');
+            const resultDiv = document.getElementById('functionResult');
+            
+            if (typeof showEditBasicInfoModal === 'function') {
+                try {
+                    showEditBasicInfoModal();
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '✅ showEditBasicInfoModal called successfully';
+                    debugLog('showEditBasicInfoModal function called', 'success');
+                } catch (error) {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Function error: ${error.message}`;
+                    debugLog(`Function error: ${error.message}`, 'error');
+                }
+            } else {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '❌ showEditBasicInfoModal function not found';
+                debugLog('showEditBasicInfoModal function not found', 'error');
+            }
+        }
+
+        function testWithData() {
+            debugLog('Testing modal with manual data...', 'info');
+            const resultDiv = document.getElementById('functionResult');
+            
+            // Create a test modal manually
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.style.cssText = `
+                position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0,0,0,0.5); display: flex; align-items: center;
+                justify-content: center; z-index: 10000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; padding: 20px; border-radius: 10px; max-width: 400px;">
+                    <h3>Test Modal</h3>
+                    <p>This is a manually created test modal to verify modal functionality works.</p>
+                    <button onclick="this.closest('.modal-overlay').remove()">Close</button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            resultDiv.className = 'result success';
+            resultDiv.innerHTML = '✅ Test modal created';
+            debugLog('Test modal created successfully', 'success');
+        }
+
+        function loadProfileFrame() {
+            debugLog('Loading profile page in frame...', 'info');
+            const frame = document.getElementById('profileFrame');
+            const resultDiv = document.getElementById('frameResult');
+            
+            frame.style.display = 'block';
+            frame.src = '/phpwebsite/profile.html';
+            
+            frame.onload = function() {
+                debugLog('Profile page loaded in frame', 'success');
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = '✅ Profile page loaded in frame';
+            };
+            
+            frame.onerror = function() {
+                debugLog('Failed to load profile page in frame', 'error');
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '❌ Failed to load profile page';
+            };
+        }
+
+        function testFrameButtons() {
+            debugLog('Testing buttons in frame...', 'info');
+            const frame = document.getElementById('profileFrame');
+            const resultDiv = document.getElementById('frameResult');
+            
+            try {
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+                const quickEditBtn = frameDoc.getElementById('quickEditBtn');
+                
+                if (quickEditBtn) {
+                    debugLog('Found quickEditBtn in frame', 'success');
+                    resultDiv.innerHTML = '✅ Found quick edit button in frame';
+                    
+                    // Try to click it
+                    quickEditBtn.click();
+                    debugLog('Clicked quick edit button in frame', 'info');
+                } else {
+                    debugLog('quickEditBtn not found in frame', 'error');
+                    resultDiv.innerHTML = '❌ Quick edit button not found in frame';
+                }
+            } catch (error) {
+                debugLog(`Frame access error: ${error.message}`, 'error');
+                resultDiv.innerHTML = `❌ Frame access error: ${error.message}`;
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            debugLog('Final debug test page loaded', 'info');
+            
+            // Log available functions
+            const functions = ['showEditBasicInfoModal', 'showEditContactInfoModal', 'showEditAcademicInfoModal', 'checkAuth'];
+            functions.forEach(func => {
+                if (window[func]) {
+                    debugLog(`✅ Function available: ${func}`, 'success');
+                } else {
+                    debugLog(`❌ Function missing: ${func}`, 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

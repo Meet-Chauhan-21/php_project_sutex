@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile & Security Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        input { padding: 8px; margin: 5px; border: 1px solid #ddd; border-radius: 4px; width: 200px; }
+        h3 { color: #333; margin-top: 0; }
+    </style>
+</head>
+<body>
+    <h1>Profile & Security Functionality Test</h1>
+    
+    <div class="test-section">
+        <h3>1. Login Test</h3>
+        <p>First, let's login to test profile features:</p>
+        <input type="email" id="loginEmail" placeholder="Email" value="test@example.com">
+        <input type="password" id="loginPassword" placeholder="Password" value="testpassword">
+        <button class="btn btn-primary" onclick="testLogin()">Login</button>
+        <div id="loginResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>2. Security Tab Test</h3>
+        <p>Test if security tab buttons work:</p>
+        <button class="btn btn-secondary" onclick="testSecurityTab()">Test Security Tab Navigation</button>
+        <div id="securityTabResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>3. Change Password Test</h3>
+        <p>Test change password functionality:</p>
+        <input type="password" id="currentPass" placeholder="Current Password" value="testpassword">
+        <input type="password" id="newPass" placeholder="New Password" value="newpassword123">
+        <input type="password" id="confirmPass" placeholder="Confirm Password" value="newpassword123">
+        <button class="btn btn-primary" onclick="testChangePassword()">Test Change Password</button>
+        <div id="changePasswordResult"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>4. Profile Page Direct Test</h3>
+        <button class="btn btn-secondary" onclick="openProfilePage()">Open Profile Page</button>
+        <button class="btn btn-secondary" onclick="testProfileJS()">Test Profile JS Functions</button>
+        <div id="profileTestResult"></div>
+    </div>
+
+    <script>
+        let currentSession = null;
+
+        async function testLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const resultDiv = document.getElementById('loginResult');
+            
+            resultDiv.innerHTML = '<p>Testing login...</p>';
+            
+            try {
+                const response = await fetch('/php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentSession = data.user;
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <strong>✅ Login Successful</strong><br>
+                            User: ${data.user.name}<br>
+                            Email: ${data.user.email}<br>
+                            Session established!
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <strong>❌ Login Failed</strong><br>
+                            Error: ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <strong>❌ Request Failed</strong><br>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function testChangePassword() {
+            const currentPassword = document.getElementById('currentPass').value;
+            const newPassword = document.getElementById('newPass').value;
+            const confirmPassword = document.getElementById('confirmPass').value;
+            const resultDiv = document.getElementById('changePasswordResult');
+            
+            if (newPassword !== confirmPassword) {
+                resultDiv.innerHTML = '<div class="result error">❌ Passwords do not match</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<p>Testing change password...</p>';
+            
+            try {
+                const response = await fetch('/php/change_password.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        currentPassword: currentPassword,
+                        newPassword: newPassword
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <strong>✅ Password Changed Successfully</strong><br>
+                            ${data.message}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <strong>❌ Password Change Failed</strong><br>
+                            Status: ${response.status}<br>
+                            Error: ${data.error}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <strong>❌ Request Failed</strong><br>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function testSecurityTab() {
+            const resultDiv = document.getElementById('securityTabResult');
+            resultDiv.innerHTML = '<p>Testing security tab elements...</p>';
+            
+            // Check if we can access the profile page iframe or open it
+            const iframe = document.createElement('iframe');
+            iframe.src = '/profile.html';
+            iframe.style.width = '100%';
+            iframe.style.height = '400px';
+            iframe.style.border = '1px solid #ddd';
+            iframe.style.borderRadius = '4px';
+            
+            iframe.onload = function() {
+                resultDiv.innerHTML = `
+                    <div class="result info">
+                        <strong>ℹ️ Profile Page Loaded</strong><br>
+                        Profile page loaded successfully. Check security tab functionality below:
+                    </div>
+                `;
+                resultDiv.appendChild(iframe);
+            };
+            
+            iframe.onerror = function() {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <strong>❌ Profile Page Failed to Load</strong><br>
+                        Could not load profile page
+                    </div>
+                `;
+            };
+        }
+
+        function openProfilePage() {
+            window.open('/profile.html', '_blank');
+        }
+
+        async function testProfileJS() {
+            const resultDiv = document.getElementById('profileTestResult');
+            resultDiv.innerHTML = '<p>Testing profile JavaScript functions...</p>';
+            
+            try {
+                // Test if profile.js functions are accessible
+                const response = await fetch('/profile.js');
+                const jsContent = await response.text();
+                
+                const functionsToCheck = [
+                    'openChangePasswordModal',
+                    'handleChangePassword',
+                    'initializeEventListeners',
+                    'initializeTabNavigation'
+                ];
+                
+                let foundFunctions = [];
+                let missingFunctions = [];
+                
+                functionsToCheck.forEach(func => {
+                    if (jsContent.includes(`function ${func}`) || jsContent.includes(`${func} =`) || jsContent.includes(`${func}(`)) {
+                        foundFunctions.push(func);
+                    } else {
+                        missingFunctions.push(func);
+                    }
+                });
+                
+                resultDiv.innerHTML = `
+                    <div class="result info">
+                        <strong>📄 Profile.js Analysis</strong><br>
+                        File size: ${jsContent.length} characters<br>
+                        <strong>Found functions:</strong> ${foundFunctions.join(', ')}<br>
+                        <strong>Missing functions:</strong> ${missingFunctions.length > 0 ? missingFunctions.join(', ') : 'None'}<br>
+                        <br>
+                        <strong>Change Password Related Code:</strong><br>
+                        ${jsContent.includes('changePasswordModal') ? '✅' : '❌'} Modal references found<br>
+                        ${jsContent.includes('handleChangePassword') ? '✅' : '❌'} Handle function found<br>
+                        ${jsContent.includes('security-btn') ? '✅' : '❌'} Security button handlers found
+                    </div>
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <strong>❌ Profile.js Test Failed</strong><br>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-run some basic tests on page load
+        window.addEventListener('load', function() {
+            console.log('Profile & Security Test Page Loaded');
+            testProfileJS();
+        });
+    </script>
+</body>
+</html>

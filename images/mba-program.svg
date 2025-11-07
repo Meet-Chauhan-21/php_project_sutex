@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="200" height="150">
+  <defs>
+    <linearGradient id="mbaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c3aed;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6d28d9;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="200" height="150" fill="url(#mbaGradient)" rx="10"/>
+  
+  <!-- Briefcase -->
+  <rect x="60" y="50" width="80" height="50" fill="#1f2937" rx="4"/>
+  <rect x="65" y="55" width="70" height="40" fill="#374151" rx="2"/>
+  
+  <!-- Briefcase Handle -->
+  <rect x="92" y="45" width="16" height="6" fill="transparent" stroke="#1f2937" stroke-width="3" rx="3"/>
+  
+  <!-- Briefcase Lock -->
+  <rect x="98" y="68" width="4" height="6" fill="#fbbf24"/>
+  <circle cx="100" cy="71" r="2" fill="#f59e0b"/>
+  
+  <!-- Business Chart -->
+  <rect x="25" y="60" width="25" height="35" fill="rgba(255,255,255,0.2)" rx="3"/>
+  <polyline points="28,88 32,82 36,85 40,78 44,75" fill="none" stroke="#10b981" stroke-width="2"/>
+  <circle cx="28" cy="88" r="1.5" fill="#10b981"/>
+  <circle cx="32" cy="82" r="1.5" fill="#10b981"/>
+  <circle cx="36" cy="85" r="1.5" fill="#10b981"/>
+  <circle cx="40" cy="78" r="1.5" fill="#10b981"/>
+  <circle cx="44" cy="75" r="1.5" fill="#10b981"/>
+  
+  <!-- Business Building -->
+  <rect x="150" y="65" width="25" height="30" fill="rgba(255,255,255,0.3)" rx="2"/>
+  <rect x="153" y="70" width="3" height="3" fill="#fbbf24"/>
+  <rect x="158" y="70" width="3" height="3" fill="#fbbf24"/>
+  <rect x="163" y="70" width="3" height="3" fill="#fbbf24"/>
+  <rect x="153" y="76" width="3" height="3" fill="#fbbf24"/>
+  <rect x="158" y="76" width="3" height="3" fill="#fbbf24"/>
+  <rect x="163" y="76" width="3" height="3" fill="#fbbf24"/>
+  <rect x="153" y="82" width="3" height="3" fill="#fbbf24"/>
+  <rect x="158" y="82" width="3" height="3" fill="#fbbf24"/>
+  <rect x="163" y="82" width="3" height="3" fill="#fbbf24"/>
+  
+  <!-- Leadership Crown -->
+  <polygon points="95,25 100,20 105,25 103,30 97,30" fill="#fbbf24"/>
+  <circle cx="97" cy="27" r="1" fill="#f59e0b"/>
+  <circle cx="100" cy="26" r="1" fill="#f59e0b"/>
+  <circle cx="103" cy="27" r="1" fill="#f59e0b"/>
+  
+  <!-- Graduation Cap -->
+  <polygon points="35,25 35,30 50,30 50,25 42.5,20" fill="#fbbf24"/>
+  <rect x="41" y="25" width="3" height="8" fill="#f59e0b"/>
+  <circle cx="43" cy="33" r="1" fill="#f59e0b"/>
+  
+  <!-- Business Icons -->
+  <text x="170" y="45" font-family="Arial, sans-serif" font-size="12" fill="rgba(255,255,255,0.4)">💼</text>
+  <text x="20" y="45" font-family="Arial, sans-serif" font-size="12" fill="rgba(255,255,255,0.4)">📊</text>
+  
+  <!-- Dollar Sign -->
+  <circle cx="175" cy="85" r="8" fill="rgba(255,255,255,0.3)"/>
+  <text x="175" y="89" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#ffffff">$</text>
+  
+  <!-- Title -->
+  <text x="100" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">MBA</text>
+</svg>

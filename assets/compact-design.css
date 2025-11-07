@@ -1,0 +1,1115 @@
+/* Compact Design Fixes - Proper Viewport Sizing */
+
+/* Reset excessive spacing and make design more compact */
+:root {
+    /* Reduced spacing system for compact design */
+    --section-padding: 60px 0 !important;
+    --space-16: 2.5rem !important;
+    --space-20: 3rem !important;
+    --space-24: 3.5rem !important;
+}
+
+/* Professional Unified Header Design */
+header,
+header#header {
+    padding: 0 !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background: linear-gradient(135deg, #1e40af 0%, #507ddf 50%, #3b82f6 100%) !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+    border-bottom: 3px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Unified Header Container */
+.header-container,
+.navbar {
+    padding: 0.5rem 1.5rem !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    background: transparent !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    border: none !important;
+    gap: 1.5rem !important;
+}
+
+/* Ensure navigation stays on the right */
+nav#nav {
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
+    max-width: 55% !important;
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    justify-content: flex-end !important;
+    position: relative !important;
+    right: 0 !important;
+    margin-bottom: 15px !important;
+}
+
+/* Override Bootstrap navbar default display */
+.navbar {
+    display: flex !important;
+}
+
+/* Header element vertical alignment */
+.header-container > * {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+}
+
+/* Perfect right-side navigation alignment */
+.header-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    position: relative !important;
+}
+
+.header-container .logo {
+    order: 1 !important;
+    margin-right: auto !important;
+    flex: 0 0 auto !important;
+}
+
+.header-container nav#nav {
+    order: 2 !important;
+    margin-left: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex: 0 0 auto !important;
+}
+
+.header-container .mobile-menu-btn {
+    order: 3 !important;
+    margin-left: 0.5rem !important;
+    flex: 0 0 auto !important;
+}
+
+/* Unified Brand/Logo Styling */
+.logo,
+.navbar-brand {
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.6rem !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    transition: all 0.3s ease !important;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8) !important;
+    padding: 0 !important;
+    margin: 0 0 15px 0 !important;
+    flex-shrink: 0 !important;
+    height: 100% !important;
+}
+
+.logo:hover,
+.navbar-brand:hover {
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.9) !important;
+    text-decoration: none !important;
+}
+
+/* Unified Logo Icon */
+.logo-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 1rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%) !important;
+    color: #1e40af !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 800 !important;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3) !important;
+    transition: all 0.3s ease !important;
+    border: 2px solid rgba(255, 255, 255, 0.8) !important;
+    flex-shrink: 0 !important;
+}
+
+.logo:hover .logo-icon {
+    transform: scale(1.05) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+    border-color: rgba(255, 255, 255, 1) !important;
+}
+
+/* Unified Navigation Styling */
+.navbar-nav,
+nav#nav ul {
+    display: flex !important;
+    list-style: none !important;
+    margin: 0 0 4px 0 !important;
+    padding: 0 !important;
+    gap: 0.1rem !important;
+    flex-direction: row !important;
+    margin-left: auto !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
+    backdrop-filter: blur(6px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 6px !important;
+    padding: 0.1rem 0.25rem !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 40px !important;
+}
+
+.navbar-nav .nav-item,
+nav#nav ul li {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
+    flex-shrink: 0 !important;
+}
+
+.navbar-nav .nav-link,
+nav#nav ul li a {
+    padding: 0.3rem 0.45rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    border-radius: 4px !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    line-height: 1.1 !important;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7) !important;
+    border: 1px solid transparent !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: block !important;
+    white-space: nowrap !important;
+    background: transparent !important;
+    width: auto !important;
+    flex-shrink: 0 !important;
+}
+
+.navbar-nav .nav-link::before,
+nav#nav ul li a::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+    transition: left 0.5s ease !important;
+}
+
+.navbar-nav .nav-link:hover::before,
+nav#nav ul li a:hover::before {
+    left: 100% !important;
+}
+
+.navbar-nav .nav-link:hover,
+nav#nav ul li a:hover {
+    color: #1e40af !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: none !important;
+    transform: translateY(-1px) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25) !important;
+}
+
+.navbar-nav .nav-link.active,
+.navbar-nav .nav-link[aria-current="page"],
+nav#nav ul li a.active,
+nav#nav ul li a[aria-current="page"] {
+    color: #1e40af !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    text-shadow: none !important;
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Unified Mobile Toggle Button */
+.navbar-toggler,
+.mobile-menu-btn {
+    display: none !important;
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.9rem !important;
+    background: rgba(255,255,255,0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: 6px !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2) !important;
+    flex-shrink: 0 !important;
+    align-self: center !important;
+}
+
+.navbar-toggler:hover,
+.mobile-menu-btn:hover {
+    background: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: 0 4px 12px rgba(254, 243, 199, 0.3) !important;
+}
+
+/* Adjust body padding for unified header */
+body {
+    padding-top: 65px !important; /* Adjusted for 60px header + spacing */
+}
+/* Ensure all main content sections are not hidden behind header */
+main, .hero-section, .hero, .container:first-child, section:first-of-type {
+    margin-top: 0 !important;
+    padding-top: 1.5rem !important; /* Added extra padding */
+}
+
+/* Additional clearance for specific elements */
+.hero-content, .section-content, .page-content {
+    margin-top: 0 !important;
+    padding-top: 1rem !important;
+}
+
+/* Fix specific page content positioning */
+.profile-container, .enrollment-container {
+    margin-top: 0 !important;
+    padding-top: 1rem !important;
+}
+
+/* Ensure no content is hidden behind fixed navbar */
+.container > .row:first-child,
+.container > div:first-child,
+.container > section:first-child,
+.container > .hero:first-child {
+    margin-top: 1rem !important;
+    padding-top: 1rem !important;
+}
+
+/* Fix homepage hero section */
+.hero-section .container {
+    padding-top: 2rem !important;
+}
+
+/* Fix all page titles and headers */
+h1:first-child, h2:first-child, .page-title {
+    margin-top: 1rem !important;
+    padding-top: 0.5rem !important;
+}
+
+/* Updated login and register pages for unified header */
+.auth-container {
+    padding: 2rem 1rem !important; /* Adjusted for unified header design */
+    min-height: calc(100vh - 65px) !important; /* Adjusted for new body padding */
+}
+
+.auth-card {
+    max-width: 350px !important;
+    padding: 1.5rem !important;
+    margin: 0.5rem auto !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1) !important;
+}
+
+.auth-card h2 {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
+    text-align: center !important;
+    color: #2563eb !important;
+}
+
+.auth-card .form-group {
+    margin-bottom: 1rem !important;
+}
+
+.auth-card .form-group label {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 500 !important;
+    color: #374151 !important;
+}
+
+.auth-card .form-control {
+    padding: 0.75rem !important;
+    font-size: 0.9rem !important;
+    border-radius: 8px !important;
+    border: 1px solid #d1d5db !important;
+    transition: all 0.2s ease !important;
+}
+
+.auth-card .form-control:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+    outline: none !important;
+}
+
+.auth-card .btn {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    width: 100% !important;
+    margin-top: 0.5rem !important;
+}
+
+.auth-card .btn-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    border: none !important;
+}
+
+.auth-card .btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+    transform: translateY(-1px) !important;
+}
+
+.auth-card .text-center {
+    margin-top: 1rem !important;
+    font-size: 0.9rem !important;
+}
+
+.auth-card .text-center a {
+    color: #2563eb !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+}
+
+.auth-card .text-center a:hover {
+    text-decoration: underline !important;
+}
+
+/* Compact form sections */
+.additional-info {
+    margin-top: 1rem !important;
+    padding-top: 1rem !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+
+.additional-info h4 {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.75rem !important;
+    color: #374151 !important;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 576px) {
+    .auth-container {
+        padding: 1rem 0.5rem !important;
+    }
+    
+    .auth-card {
+        padding: 1.5rem !important;
+        margin: 0.5rem auto !important;
+    }
+    
+    .auth-card h2 {
+        font-size: 1.25rem !important;
+    }
+}
+.hero {
+    min-height: 85vh !important;
+    padding-top: 80px !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #0f172a !important;
+}
+
+.hero::before,
+.hero::after {
+    display: none !important;
+}
+
+.hero-content {
+    padding: var(--space-8) !important;
+    max-width: 700px !important;
+}
+
+.hero h1 {
+    font-size: clamp(1.75rem, 4vw, 2.75rem) !important;
+    margin-bottom: var(--space-4) !important;
+    line-height: 1.2 !important;
+}
+
+.hero p {
+    font-size: clamp(1rem, 2vw, 1.125rem) !important;
+    margin-bottom: var(--space-6) !important;
+    line-height: 1.5 !important;
+}
+
+/* Reduce section padding for better viewport fit */
+.section {
+    padding: 50px 0 !important;
+}
+
+.programs,
+.features,
+.testimonials,
+.contact {
+    padding: 60px 0 !important;
+}
+
+.stats {
+    padding: 40px 0 !important;
+}
+
+/* Make section titles more compact */
+.section-title {
+    margin-bottom: var(--space-10) !important;
+}
+
+.section-title h2 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem) !important;
+    margin-bottom: var(--space-3) !important;
+}
+
+.section-title p {
+    font-size: var(--font-size-base) !important;
+    line-height: 1.5 !important;
+}
+
+/* Remove conflicting header styling */
+.header-container {
+    padding: 0.5rem 0 !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+}
+
+/* Professional logo styling with high contrast */
+.logo {
+    font-size: 1.3rem !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+}
+
+.logo:hover {
+    color: #fef3c7 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+}
+
+.logo-icon {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 1rem !important;
+    background: linear-gradient(135deg, #ffffff 0%, #fef3c7 50%, #fbbf24 100%) !important;
+    color: #1e40af !important;
+    border-radius: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3) !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+.logo:hover .logo-icon {
+    transform: scale(1.1) rotate(5deg) !important;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.5) !important;
+    border-color: rgba(255, 255, 255, 0.6) !important;
+    background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 50%, #f59e0b 100%) !important;
+}
+
+/* Professional navigation with high contrast */
+nav#nav ul {
+    display: flex !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0.5rem !important;
+}
+
+nav#nav ul li a {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    color: #f8fafc !important;
+    border-radius: 8px !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    line-height: 1.2 !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2) !important;
+    border: 2px solid transparent !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+nav#nav ul li a::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+    transition: left 0.5s ease !important;
+}
+
+nav#nav ul li a:hover::before {
+    left: 100% !important;
+}
+
+nav#nav ul li a:hover,
+nav#nav ul li a.active {
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(254,243,199,0.3) 100%) !important;
+    color: #fef3c7 !important;
+    transform: translateY(-3px) scale(1.05) !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    border-color: rgba(254, 243, 199, 0.4) !important;
+    box-shadow: 0 4px 12px rgba(254, 243, 199, 0.3) !important;
+}
+
+nav#nav ul li a.active {
+    background: linear-gradient(135deg, rgba(254,243,199,0.25) 0%, rgba(255,255,255,0.15) 100%) !important;
+    border-color: rgba(254, 243, 199, 0.6) !important;
+}
+
+/* Professional mobile menu button with animations */
+.mobile-menu-btn {
+    display: none !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 1rem !important;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(254,243,199,0.25) 100%) !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 8px !important;
+    color: #f8fafc !important;
+    cursor: pointer !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+}
+
+.mobile-menu-btn:hover {
+    background: linear-gradient(135deg, rgba(254,243,199,0.3) 0%, rgba(255,255,255,0.2) 100%) !important;
+    color: #fef3c7 !important;
+    transform: translateY(-2px) scale(1.05) !important;
+    border-color: rgba(254, 243, 199, 0.5) !important;
+    box-shadow: 0 4px 12px rgba(254, 243, 199, 0.3) !important;
+}
+
+.mobile-menu-btn:active {
+    transform: translateY(0px) scale(0.98) !important;
+}
+
+/* More compact navigation */
+nav ul {
+    gap: var(--space-1) !important;
+    padding: var(--space-1) var(--space-3) !important;
+}
+
+nav ul li a {
+    padding: var(--space-2) var(--space-3) !important;
+    font-size: 0.875rem !important;
+}
+
+/* Compact program cards */
+.programs-grid {
+    gap: var(--space-6) !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+}
+
+.program-card {
+    border-radius: var(--radius-lg) !important;
+}
+
+.program-content {
+    padding: var(--space-4) !important;
+}
+
+.program-title {
+    font-size: var(--font-size-lg) !important;
+    margin-bottom: var(--space-2) !important;
+    line-height: 1.3 !important;
+}
+
+.program-img {
+    height: 120px !important;
+}
+
+/* Compact feature cards */
+.features-grid {
+    gap: var(--space-6) !important;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+}
+
+.feature-card {
+    padding: var(--space-5) !important;
+    border-radius: var(--radius-lg) !important;
+}
+
+.feature-icon {
+    font-size: 2rem !important;
+    margin-bottom: var(--space-3) !important;
+}
+
+.feature-card h3 {
+    font-size: var(--font-size-lg) !important;
+    margin-bottom: var(--space-2) !important;
+}
+
+.feature-card p {
+    font-size: var(--font-size-sm) !important;
+    line-height: 1.5 !important;
+}
+
+/* Compact stats section */
+.stats-grid {
+    gap: var(--space-4) !important;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
+}
+
+.stat-item {
+    padding: var(--space-4) var(--space-3) !important;
+}
+
+.stat-number {
+    font-size: 1.75rem !important;
+    margin-bottom: var(--space-1) !important;
+}
+
+.stat-label {
+    font-size: var(--font-size-sm) !important;
+}
+
+/* Compact testimonials */
+.testimonials-grid {
+    gap: var(--space-6) !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+}
+
+.testimonial-card {
+    padding: var(--space-5) !important;
+    border-radius: var(--radius-lg) !important;
+}
+
+.testimonial-content p {
+    font-size: var(--font-size-sm) !important;
+    line-height: 1.5 !important;
+    margin-bottom: var(--space-4) !important;
+}
+
+.author-img {
+    width: 40px !important;
+    height: 40px !important;
+}
+
+.author-info h4 {
+    font-size: var(--font-size-base) !important;
+    margin-bottom: var(--space-1) !important;
+}
+
+.author-info p {
+    font-size: var(--font-size-xs) !important;
+}
+
+/* Compact contact section */
+.contact-container {
+    gap: var(--space-8) !important;
+    padding: var(--space-6) !important;
+}
+
+.contact-info h3 {
+    font-size: var(--font-size-xl) !important;
+    margin-bottom: var(--space-3) !important;
+}
+
+.contact-details {
+    margin-bottom: var(--space-4) !important;
+}
+
+.contact-detail {
+    margin-bottom: var(--space-2) !important;
+    font-size: var(--font-size-sm) !important;
+}
+
+.contact-form .form-group {
+    margin-bottom: var(--space-4) !important;
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+    padding: var(--space-3) !important;
+    font-size: var(--font-size-sm) !important;
+}
+
+.contact-form textarea {
+    min-height: 100px !important;
+}
+
+/* Compact footer */
+footer {
+    padding: 40px 0 20px !important;
+}
+
+.footer-container {
+    gap: var(--space-6) !important;
+    margin-bottom: var(--space-6) !important;
+}
+
+.footer-col h3 {
+    font-size: var(--font-size-lg) !important;
+    margin-bottom: var(--space-3) !important;
+}
+
+.footer-col p {
+    font-size: var(--font-size-sm) !important;
+    margin-bottom: var(--space-3) !important;
+    line-height: 1.5 !important;
+}
+
+.footer-links li {
+    margin-bottom: var(--space-1) !important;
+}
+
+.footer-links a {
+    font-size: var(--font-size-sm) !important;
+}
+
+/* Compact button styling */
+.btn {
+    padding: var(--space-2) var(--space-4) !important;
+    font-size: var(--font-size-sm) !important;
+}
+
+.btn-lg {
+    padding: var(--space-3) var(--space-6) !important;
+    font-size: var(--font-size-base) !important;
+}
+
+/* Typography adjustments for better viewport fit */
+h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem) !important;
+    line-height: 1.2 !important;
+}
+
+h2 {
+    font-size: clamp(1.5rem, 3vw, 2rem) !important;
+    line-height: 1.25 !important;
+}
+
+h3 {
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem) !important;
+    line-height: 1.3 !important;
+}
+
+h4 {
+    font-size: clamp(1.125rem, 2vw, 1.25rem) !important;
+    line-height: 1.4 !important;
+}
+
+p {
+    font-size: var(--font-size-sm) !important;
+    line-height: 1.5 !important;
+    margin-bottom: var(--space-3) !important;
+}
+
+/* Responsive container adjustments */
+.container {
+    max-width: 1140px !important;
+    padding-left: var(--space-4) !important;
+    padding-right: var(--space-4) !important;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .hero {
+        min-height: 75vh !important;
+        padding-top: 70px !important;
+    }
+    
+    .hero-content {
+        padding: var(--space-4) !important;
+    }
+    
+    .hero h1 {
+        font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    }
+    
+    .hero p {
+        font-size: clamp(0.875rem, 3vw, 1rem) !important;
+    }
+    
+    .section {
+        padding: 30px 0 !important;
+    }
+    
+    .programs,
+    .features,
+    .testimonials,
+    .contact {
+        padding: 40px 0 !important;
+    }
+    
+    .section-title {
+        margin-bottom: var(--space-6) !important;
+    }
+    
+    .section-title h2 {
+        font-size: clamp(1.25rem, 5vw, 1.75rem) !important;
+    }
+    
+    .programs-grid,
+    .features-grid,
+    .testimonials-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-4) !important;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: var(--space-3) !important;
+    }
+    
+    .contact-container {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-6) !important;
+        padding: var(--space-4) !important;
+    }
+    
+    .footer-container {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-4) !important;
+        text-align: center;
+    }
+    
+    .container {
+        padding-left: var(--space-3) !important;
+        padding-right: var(--space-3) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        min-height: 70vh !important;
+    }
+    
+    .hero h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    .hero p {
+        font-size: 0.875rem !important;
+    }
+    
+    .hero-btns {
+        flex-direction: column !important;
+        gap: var(--space-2) !important;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-2) !important;
+    }
+    
+    .stat-item {
+        max-width: 200px !important;
+        margin: 0 auto !important;
+    }
+    
+    nav ul {
+        padding-top: var(--space-16) !important;
+    }
+}
+
+/* Fix auth sections to be more compact */
+.auth-section-compact {
+    min-height: 90vh !important;
+    padding: var(--space-6) 0 !important;
+}
+
+.auth-card-compact {
+    border-radius: var(--radius-xl) !important;
+}
+
+.auth-header-compact {
+    padding: var(--space-5) var(--space-6) var(--space-3) !important;
+}
+
+.auth-header-compact h1 {
+    font-size: var(--font-size-xl) !important;
+}
+
+.auth-form-compact {
+    padding: 0 var(--space-6) var(--space-6) !important;
+}
+
+.input-group {
+    margin-bottom: var(--space-4) !important;
+}
+
+.btn-auth {
+    padding: var(--space-3) !important;
+    margin-bottom: var(--space-4) !important;
+}
+
+/* Ensure all elements stay within viewport */
+* {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Prevent horizontal scroll */
+body {
+    overflow-x: hidden !important;
+}
+
+/* Improve readability with proper line heights */
+.hero-content,
+.section-title,
+.program-content,
+.feature-card,
+.testimonial-content,
+.contact-info {
+    line-height: 1.5 !important;
+}
+
+/* Mobile responsive adjustments for unified header */
+@media (max-width: 768px) {
+    .navbar-toggler,
+    .mobile-menu-btn {
+        display: block !important;
+    }
+    
+    .navbar-nav,
+    nav#nav {
+        display: none !important;
+    }
+    
+    .logo,
+    .navbar-brand {
+        font-size: 1.1rem !important;
+        margin-right: auto !important;
+    }
+    
+    .logo-icon {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .header-container {
+        padding: 0.4rem 1rem !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        display: flex !important;
+        position: relative !important;
+    }
+    
+    .header-container .logo {
+        order: 1 !important;
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+        position: absolute !important;
+        left: 1rem !important;
+    }
+    
+    .header-container .mobile-menu-btn {
+        order: 2 !important;
+        flex-shrink: 0 !important;
+        margin-left: auto !important;
+        position: absolute !important;
+        right: 1rem !important;
+    }
+}
+
+/* Tablet and medium screens */
+@media (max-width: 1024px) and (min-width: 769px) {
+    nav#nav {
+        max-width: 50% !important;
+    }
+    
+    nav#nav ul li a {
+        padding: 0.25rem 0.35rem !important;
+        font-size: 0.7rem !important;
+    }
+    
+    nav#nav ul {
+        gap: 0.05rem !important;
+        padding: 0.08rem 0.2rem !important;
+    }
+    
+    .logo {
+        font-size: 1.2rem !important;
+    }
+    
+    .logo-icon {
+        width: 34px !important;
+        height: 34px !important;
+    }
+}
+    
+    header,
+    header#header {
+        min-height: 50px !important;
+        max-height: 50px !important;
+    }
+    
+    .header-container,
+    .navbar {
+        min-height: 50px !important;
+        max-height: 50px !important;
+        padding: 0.5rem 1rem !important;
+    }
+    
+body {
+    padding-top: 55px !important;
+}
+
+/* Additional responsive styles */
+@media (max-width: 480px) {
+    nav#nav ul {
+        gap: 0.1rem !important;
+        padding: 0.15rem 0.3rem !important;
+    }
+    
+    nav#nav ul li a {
+        padding: 0.3rem 0.4rem !important;
+        font-size: 0.75rem !important;
+    }
+}
+
+/* Remove mobile navbar adjustments - Header only design */
+/* All navbar styling removed for header-only approach */
+
+/* Make sure images don't overflow */
+img {
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+}
+
+/* Compact navigation for better mobile experience */
+@media (max-width: 991px) {
+    nav {
+        width: 80% !important;
+    }
+    
+    nav ul {
+        padding: var(--space-12) var(--space-4) var(--space-4) !important;
+    }
+    
+    nav ul li a {
+        padding: var(--space-2) var(--space-4) !important;
+        font-size: var(--font-size-sm) !important;
+    }
+}

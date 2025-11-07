@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="200" height="150">
+  <defs>
+    <linearGradient id="mcaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="200" height="150" fill="url(#mcaGradient)" rx="10"/>
+  
+  <!-- Computer Monitor -->
+  <rect x="60" y="40" width="80" height="50" fill="#ffffff" rx="4"/>
+  <rect x="65" y="45" width="70" height="35" fill="#1f2937" rx="2"/>
+  
+  <!-- Code Lines -->
+  <rect x="70" y="50" width="20" height="2" fill="#10b981"/>
+  <rect x="70" y="55" width="35" height="2" fill="#f59e0b"/>
+  <rect x="70" y="60" width="25" height="2" fill="#ef4444"/>
+  <rect x="70" y="65" width="40" height="2" fill="#8b5cf6"/>
+  <rect x="70" y="70" width="15" height="2" fill="#06b6d4"/>
+  
+  <!-- Monitor Stand -->
+  <rect x="95" y="90" width="10" height="15" fill="#ffffff"/>
+  <rect x="85" y="105" width="30" height="5" fill="#ffffff"/>
+  
+  <!-- Graduation Cap -->
+  <polygon points="40,30 40,35 55,35 55,30 47.5,25" fill="#fbbf24"/>
+  <rect x="46" y="30" width="3" height="8" fill="#f59e0b"/>
+  <circle cx="48" cy="38" r="1" fill="#f59e0b"/>
+  
+  <!-- Binary Code Background -->
+  <text x="20" y="120" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">1010</text>
+  <text x="160" y="25" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">0110</text>
+  <text x="25" y="25" font-family="monospace" font-size="8" fill="rgba(255,255,255,0.3)">1001</text>
+  
+  <!-- Title -->
+  <text x="100" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#ffffff">MCA</text>
+</svg>

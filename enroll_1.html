@@ -1,0 +1,1740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidyaGuru College - BCA, BBA, BCom, BTeach Programs</title>
+    <link rel="stylesheet" href="assets/fonts-local.css">
+    <link rel="stylesheet" href="assets/fontawesome-local.css">
+    <link rel="stylesheet" href="assets/professional-enhancements.css">
+    <link rel="stylesheet" href="assets/compact-design.css">
+    <style>
+        :root {
+            --primary: #4a6bff;
+            --primary-light: #6a86ff;
+            --primary-dark: #3a5ae8;
+            --secondary: #6c757d;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --white: #ffffff;
+            --gray: #6c757d;
+            --dark-blue: #1a237e;
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+            --ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins-Local', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(74, 107, 255, 0.3);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 107, 255, 0.4);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(74, 107, 255, 0.3);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            overflow: hidden;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.8s var(--ease-out), opacity 0.8s ease;
+        }
+
+        .section-title h2.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background-color: var(--primary);
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s 0.3s var(--ease-out);
+        }
+
+        .section-title h2.animated::after {
+            transform: scaleX(1);
+        }
+
+        .section-title p {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.8s 0.2s var(--ease-out), opacity 0.8s 0.2s ease;
+        }
+
+        .section-title p.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: var(--white);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 255, 255, 0.98);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            transform: translateY(0);
+            transition: var(--transition);
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+            transition: var(--transition);
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        header.scrolled .logo img {
+            height: 40px;
+        }
+
+        header.scrolled .logo h1 {
+            font-size: 1.3rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            font-weight: 600;
+            color: var(--dark);
+            position: relative;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -5px;
+            left: 0;
+            transition: var(--transition);
+            border-radius: 3px;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+        }
+
+        nav ul li a.active::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+            transition: var(--transition);
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/hero-bg.svg') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+            padding-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.7) 100%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: transform 1s var(--ease-out), opacity 1s ease;
+        }
+
+        .hero h1.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.3);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: transform 1s 0.2s var(--ease-out), opacity 1s 0.2s ease;
+        }
+
+        .hero p.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: transform 1s 0.4s var(--ease-out), opacity 1s 0.4s ease;
+        }
+
+        .hero-btns.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Programs Section */
+        .programs {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .program-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: transform 0.8s var(--ease-out), opacity 0.8s ease, box-shadow 0.3s ease;
+        }
+
+        .program-card.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .program-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .program-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .program-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .program-card:hover .program-img img {
+            transform: scale(1.1);
+        }
+
+        .program-content {
+            padding: 25px;
+        }
+
+        .program-degree {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: var(--primary);
+            color: var(--white);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .program-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .program-duration {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        .program-duration i {
+            margin-right: 5px;
+            color: var(--primary);
+        }
+
+        .program-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+            transform: translateY(50px);
+            opacity: 0;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .feature-card.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: rgba(74, 107, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            color: var(--primary-dark);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--secondary);
+            line-height: 1.7;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--primary), var(--dark-blue));
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="rgba(255,255,255,0.05)" d="M0,0 L100,0 L100,100 L0,100 Z" /></svg>');
+            background-size: 50px 50px;
+            opacity: 0.2;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            padding: 40px 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: transform 0.8s var(--ease-out), opacity 0.8s ease;
+        }
+
+        .stat-item.animated {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .stat-item:hover {
+            background: rgba(255,255,255,0.15);
+            transform: scale(1.05) !important;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            transition: var(--transition);
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: transform 0.8s var(--ease-out), opacity 0.8s ease;
+        }
+
+        .testimonial-card.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-card::before {
+            content: '\201C';
+            font-size: 6rem;
+            color: rgba(74, 107, 255, 0.1);
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .testimonial-content {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            font-style: italic;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+            border: 3px solid var(--primary-light);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .author-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .author-info p {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .contact-info {
+            transform: translateX(-50px);
+            opacity: 0;
+            transition: transform 0.8s var(--ease-out), opacity 0.8s ease;
+        }
+
+        .contact-info.animated {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .contact-info p {
+            margin-bottom: 30px;
+            color: var(--secondary);
+            line-height: 1.8;
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .contact-detail:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-detail i {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-right: 15px;
+            width: 25px;
+            text-align: center;
+        }
+
+        .contact-form {
+            transform: translateX(50px);
+            opacity: 0;
+            transition: transform 0.8s var(--ease-out), opacity 0.8s ease;
+        }
+
+        .contact-form.animated {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 25px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: var(--light);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+            background-color: var(--white);
+        }
+
+        .contact-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            background-color: rgba(74, 107, 255, 0.1);
+            border-radius: 50%;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary);
+            color: var(--white);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 100px 0 30px;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, var(--primary), var(--dark-blue));
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col {
+            transform: translateY(30px);
+            opacity: 0;
+            transition: transform 0.8s var(--ease-out), opacity 0.8s ease;
+        }
+
+        .footer-col.animated {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--white);
+            position: relative;
+            padding-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: 0;
+            left: 0;
+            border-radius: 3px;
+        }
+
+        .footer-col p {
+            margin-bottom: 20px;
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--light);
+            opacity: 0.8;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .newsletter-form input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            background-color: rgba(255,255,255,0.1);
+            color: var(--white);
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--light);
+            transition: var(--transition);
+        }
+
+        .footer-bottom a:hover {
+            color: var(--primary);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 500px;
+            position: relative;
+            transform: translateY(-50px);
+            transition: var(--transition);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary);
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .close-modal:hover {
+            color: var(--danger);
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+
+        .modal h2 {
+            margin-bottom: 25px;
+            color: var(--dark);
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .modal-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal-form input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--light);
+        }
+
+        .modal-form input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+            background-color: var(--white);
+        }
+
+        .modal-form .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .modal-form .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .modal-form .remember-me input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+
+        /* Transition delay classes for animations */
+        .delay-0-1s { transition-delay: 0.1s; }
+        .delay-0-2s { transition-delay: 0.2s; }
+        .delay-0-3s { transition-delay: 0.3s; }
+        .delay-0-4s { transition-delay: 0.4s; }
+        .delay-0-5s { transition-delay: 0.5s; }
+        .delay-0-6s { transition-delay: 0.6s; }
+
+        /* Stats section specific styles */
+        .stats .section-title h2 {
+            color: var(--white);
+        }
+        
+        .stats .section-title p {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Newsletter form button style */
+        .newsletter-form .btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        /* Modal specific styles */
+        .modal .btn {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .modal .forgot-password {
+            font-size: 0.9rem;
+        }
+        
+        .modal .signup-prompt {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .modal .signup-link {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 15px 0;
+            }
+
+            nav {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 80px);
+                background-color: var(--white);
+                box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+                transition: var(--transition);
+                z-index: 999;
+                border-radius: 0 15px 15px 0;
+            }
+
+            nav.active {
+                left: 0;
+            }
+
+            nav ul {
+                flex-direction: column;
+                padding: 30px;
+            }
+
+            nav ul li {
+                margin: 20px 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero {
+                min-height: 600px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info, .contact-form {
+                transform: none !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+                margin: 0 15px;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="images/logo.svg" alt="VidyaGuru College Logo">
+                <h1>VidyaGuru College</h1>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#programs">Programs</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#" id="login-btn">Login</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="animate">Empowering Future Leaders Through Quality Education</h1>
+                <p class="animate">VidyaGuru College offers premier undergraduate programs in BCA, BBA, BCom, and BTeach with industry-relevant curriculum and experienced faculty.</p>
+                <div class="hero-btns animate">
+                    <a href="#programs" class="btn btn-primary floating">Explore Programs</a>
+                    <a href="#contact" class="btn btn-outline floating delay-1">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs Section -->
+    <section class="programs" id="programs">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate">Our Undergraduate Programs</h2>
+                <p class="animate">Choose from our diverse range of bachelor's degree programs designed to prepare you for successful careers.</p>
+            </div>
+            <div class="programs-grid">
+                <div class="program-card animate delay-0-1s">
+                    <div class="program-img">
+                        <img src="images/bca-program.svg" alt="BCA Program">
+                    </div>
+                    <div class="program-content">
+                        <span class="program-degree">Bachelor's Degree</span>
+                        <h3 class="program-title">Bachelor of Computer Applications (BCA)</h3>
+                        <div class="program-duration">
+                            <span><i class="far fa-clock"></i> 3 Years</span>
+                            <span><i class="fas fa-rupee-sign"></i> 60,000/year</span>
+                        </div>
+                        <a href="#" class="btn btn-primary program-btn">Learn More</a>
+                    </div>
+                </div>
+                <div class="program-card animate delay-0-2s">
+                    <div class="program-img">
+                        <img src="images/bba-program.svg" alt="BBA Program">
+                    </div>
+                    <div class="program-content">
+                        <span class="program-degree">Bachelor's Degree</span>
+                        <h3 class="program-title">Bachelor of Business Administration (BBA)</h3>
+                        <div class="program-duration">
+                            <span><i class="far fa-clock"></i> 3 Years</span>
+                            <span><i class="fas fa-rupee-sign"></i> 55,000/year</span>
+                        </div>
+                        <a href="#" class="btn btn-primary program-btn">Learn More</a>
+                    </div>
+                </div>
+                <div class="program-card animate delay-0-3s">
+                    <div class="program-img">
+                        <img src="images/bcom-program.svg" alt="BCom Program">
+                    </div>
+                    <div class="program-content">
+                        <span class="program-degree">Bachelor's Degree</span>
+                        <h3 class="program-title">Bachelor of Commerce (BCom)</h3>
+                        <div class="program-duration">
+                            <span><i class="far fa-clock"></i> 3 Years</span>
+                            <span><i class="fas fa-rupee-sign"></i> 50,000/year</span>
+                        </div>
+                        <a href="#" class="btn btn-primary program-btn">Learn More</a>
+                    </div>
+                </div>
+                <div class="program-card animate delay-0-4s">
+                    <div class="program-img">
+                        <img src="images/bteach-program.svg" alt="BTeach Program">
+                    </div>
+                    <div class="program-content">
+                        <span class="program-degree">Bachelor's Degree</span>
+                        <h3 class="program-title">Bachelor of Teaching (BTeach)</h3>
+                        <div class="program-duration">
+                            <span><i class="far fa-clock"></i> 4 Years</span>
+                            <span><i class="fas fa-rupee-sign"></i> 45,000/year</span>
+                        </div>
+                        <a href="#" class="btn btn-primary program-btn">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate">Why Choose VidyaGuru College</h2>
+                <p class="animate">We provide an exceptional learning environment with modern facilities and comprehensive support services.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card animate delay-0-1s">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>Industry-Relevant Curriculum</h3>
+                    <p>Our programs are designed in collaboration with industry experts to ensure graduates are job-ready.</p>
+                </div>
+                <div class="feature-card animate delay-0-2s">
+                    <div class="feature-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <h3>Experienced Faculty</h3>
+                    <p>Learn from professors with both academic excellence and real-world professional experience.</p>
+                </div>
+                <div class="feature-card animate delay-0-3s">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Modern Facilities</h3>
+                    <p>State-of-the-art labs, libraries, and smart classrooms enhance the learning experience.</p>
+                </div>
+                <div class="feature-card animate delay-0-4s">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Internship Opportunities</h3>
+                    <p>Strong industry connections provide valuable internship and placement opportunities.</p>
+                </div>
+                <div class="feature-card animate delay-0-5s">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Global Perspective</h3>
+                    <p>International collaborations and exchange programs broaden students' horizons.</p>
+                </div>
+                <div class="feature-card animate delay-0-6s">
+                    <div class="feature-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Student Support</h3>
+                    <p>Comprehensive counseling, mentoring, and career guidance services available.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" id="stats">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate">By The Numbers</h2>
+                <p class="animate">Our achievements and impact in numbers</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item animate">
+                    <div class="stat-number counter" data-target="2500">0</div>
+                    <div class="stat-label">Students Enrolled</div>
+                </div>
+                <div class="stat-item animate delay-0-1s">
+                    <div class="stat-number counter" data-target="120">0</div>
+                    <div class="stat-label">Faculty Members</div>
+                </div>
+                <div class="stat-item animate delay-0-2s">
+                    <div class="stat-number counter" data-target="85">0</div>
+                    <div class="stat-label">% Placement Rate</div>
+                </div>
+                <div class="stat-item animate delay-0-3s">
+                    <div class="stat-number counter" data-target="15">0</div>
+                    <div class="stat-label">Years of Excellence</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate">What Our Students Say</h2>
+                <p class="animate">Hear from our alumni and current students about their experiences at VidyaGuru College.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card animate delay-0-1s">
+                    <div class="testimonial-content">
+                        <p>The BCA program provided me with strong technical skills and practical knowledge that helped me secure a job at a leading IT company right after graduation.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="images/profile-male.svg" alt="Rahul Sharma">
+                        </div>
+                        <div class="author-info">
+                            <h4>Rahul Sharma</h4>
+                            <p>BCA Graduate, 2022</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate delay-0-2s">
+                    <div class="testimonial-content">
+                        <p>The BBA program's focus on case studies and real-world business scenarios gave me the confidence to start my own venture immediately after completing my degree.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="images/profile-female.svg" alt="Priya Patel">
+                        </div>
+                        <div class="author-info">
+                            <h4>Priya Patel</h4>
+                            <p>BBA Graduate, 2021</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card animate delay-0-3s">
+                    <div class="testimonial-content">
+                        <p>As a BTeach student, the teaching practicum in real classrooms was invaluable. The mentorship from experienced educators prepared me perfectly for my teaching career.</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-img">
+                            <img src="images/profile-male.svg" alt="Amit Kumar">
+                        </div>
+                        <div class="author-info">
+                            <h4>Amit Kumar</h4>
+                            <p>BTeach Graduate, 2023</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="animate">Get In Touch</h2>
+                <p class="animate">Have questions about our programs or the admission process? Contact our admissions team.</p>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info animate">
+                    <h3>Contact Information</h3>
+                    <p>We're here to help you with any questions about our programs, admissions, or campus life.</p>
+                    <div class="contact-details">
+                        <div class="contact-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Education Avenue, Knowledge City, KC 560001</span>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>+91 80 1234 5678</span>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-envelope"></i>
+                            <span>admissions@vidyaguru.edu</span>
+                        </div>
+                        <div class="contact-detail">
+                            <i class="fas fa-clock"></i>
+                            <span>Mon-Fri: 9:00 AM - 5:00 PM</span>
+                        </div>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form animate delay-0-1s">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="program">Program Interested In</label>
+                            <select id="program" name="program" required>
+                                <option value="">Select a program</option>
+                                <option value="BCA">Bachelor of Computer Applications (BCA)</option>
+                                <option value="BBA">Bachelor of Business Administration (BBA)</option>
+                                <option value="BCom">Bachelor of Commerce (BCom)</option>
+                                <option value="BTeach">Bachelor of Teaching (BTeach)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Your Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col animate delay-0-1s">
+                    <h3>About VidyaGuru</h3>
+                    <p>VidyaGuru College is a premier educational institution offering quality undergraduate programs in computer applications, business, commerce, and education.</p>
+                    <div class="contact-detail">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@vidyaguru.edu</span>
+                    </div>
+                </div>
+                <div class="footer-col animate delay-0-2s">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#programs">Programs</a></li>
+                        <li><a href="#features">Why Choose Us</a></li>
+                        <li><a href="#testimonials">Testimonials</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col animate delay-0-3s">
+                    <h3>Programs</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Bachelor of Computer Applications</a></li>
+                        <li><a href="#">Bachelor of Business Administration</a></li>
+                        <li><a href="#">Bachelor of Commerce</a></li>
+                        <li><a href="#">Bachelor of Teaching</a></li>
+                        <li><a href="#">Admission Process</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col animate delay-0-4s">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for the latest updates on programs, events, and admission notices.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 VidyaGuru College. All Rights Reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>Student Portal Login</h2>
+            <form class="modal-form" id="loginForm">
+                <div class="form-group">
+                    <label for="login-email">Username or Email</label>
+                    <input type="text" id="login-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <div class="form-footer">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="signup-prompt">Don't have an account? <a href="#" class="signup-link">Contact admissions</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const nav = document.getElementById('nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+
+        // Header Scroll Effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Login Modal
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('loginModal');
+        const closeModal = document.getElementById('close-modal');
+        
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeModal.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const speed = 200;
+            const duration = 2000; // 2 seconds
+            
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const increment = target / (duration / speed);
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(animateCounters, speed);
+                } else {
+                    counter.innerText = target;
+                    if (counter.getAttribute('data-target') === "85") {
+                        counter.innerText += "%";
+                    }
+                }
+            });
+        }
+
+        // Intersection Observer for Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                    
+                    // Add class to section title elements
+                    if (entry.target.querySelector('.section-title h2')) {
+                        entry.target.querySelector('.section-title h2').classList.add('animated');
+                        entry.target.querySelector('.section-title p').classList.add('animated');
+                    }
+                    
+                    // Start counter animation when stats section is visible
+                    if (entry.target.id === 'stats') {
+                        animateCounters();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe all animate elements
+        document.querySelectorAll('.animate').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Observe sections for navigation highlighting
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav ul li a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 100)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Form Submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! Our admissions team will contact you shortly.');
+            e.target.reset();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Student portal login would be implemented here.');
+            loginModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            e.target.reset();
+        });
+
+        // Initialize animations for elements already in view on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroElements = document.querySelectorAll('.hero .animate');
+            heroElements.forEach(el => {
+                el.classList.add('animated');
+            });
+            
+            // Check if any elements are already in view
+            const animateElements = document.querySelectorAll('.animate');
+            animateElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const isVisible = (rect.top <= window.innerHeight * 0.75);
+                
+                if (isVisible) {
+                    el.classList.add('animated');
+                    
+                    if (el.closest('#stats')) {
+                        animateCounters();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

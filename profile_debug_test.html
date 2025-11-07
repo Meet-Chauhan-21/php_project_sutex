@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Debug Test - VidyaGuru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #005a87;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: #e9ecef;
+            min-height: 20px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Profile Page Debug Test</h1>
+        
+        <!-- Step 1: Login -->
+        <div class="section">
+            <h3>Step 1: Login First</h3>
+            <button class="button" onclick="loginUser()">Login as Jane</button>
+            <button class="button" onclick="checkAuth()">Check Auth Status</button>
+            <div id="authResult" class="result">Click login to start...</div>
+        </div>
+
+        <!-- Step 2: Test Functions -->
+        <div class="section">
+            <h3>Step 2: Test Profile Functions</h3>
+            <button class="button" onclick="testBasicModal()">Test Basic Info Modal</button>
+            <button class="button" onclick="testContactModal()">Test Contact Modal</button>
+            <button class="button" onclick="testAcademicModal()">Test Academic Modal</button>
+            <div id="modalResult" class="result">Test edit modals...</div>
+        </div>
+
+        <!-- Step 3: Load Profile Page -->
+        <div class="section">
+            <h3>Step 3: Profile Page in Frame</h3>
+            <button class="button" onclick="loadProfilePage()">Load Profile Page</button>
+            <button class="button" onclick="reloadFrame()">Reload Frame</button>
+            <div id="frameResult" class="result">Click to load profile page...</div>
+            <iframe id="profileFrame" src="about:blank" style="display: none;"></iframe>
+        </div>
+
+        <!-- Console Log -->
+        <div class="section">
+            <h3>Console Log</h3>
+            <div id="consoleLog" style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; height: 150px; overflow-y: auto; font-family: monospace; font-size: 11px;"></div>
+            <button class="button" onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('consoleLog');
+            const color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'blue';
+            logDiv.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('consoleLog').innerHTML = '';
+        }
+
+        async function loginUser() {
+            log('Starting login process...');
+            const resultDiv = document.getElementById('authResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        email: 'jane@example.com',
+                        password: 'password123'
+                    })
+                });
+                
+                const result = await response.json();
+                log(`Login response: ${JSON.stringify(result)}`);
+                
+                if (result.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Login successful! Welcome ${result.user.first_name}`;
+                    
+                    // Set localStorage for compatibility
+                    const sessionData = {
+                        userId: result.user.id,
+                        email: result.user.email,
+                        firstName: result.user.first_name,
+                        lastName: result.user.last_name,
+                        role: 'student'
+                    };
+                    localStorage.setItem('vidyaGuruSession', JSON.stringify(sessionData));
+                    localStorage.setItem('userLoggedIn', 'true');
+                    log('Session data stored in localStorage', 'success');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Login failed: ${result.error}`;
+                    log(`Login failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Network error: ${error.message}`;
+                log(`Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkAuth() {
+            log('Checking authentication status...');
+            const resultDiv = document.getElementById('authResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const result = await response.json();
+                log(`Auth check response: ${JSON.stringify(result)}`);
+                
+                if (result.success) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `✅ Authenticated as ${result.user.first_name} ${result.user.last_name}`;
+                    log('User is authenticated', 'success');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = `❌ Not authenticated: ${result.error}`;
+                    log(`Not authenticated: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = `❌ Auth check error: ${error.message}`;
+                log(`Auth check error: ${error.message}`, 'error');
+            }
+        }
+
+        function testBasicModal() {
+            log('Testing basic info modal...');
+            const resultDiv = document.getElementById('modalResult');
+            
+            // Load the profile scripts in this window to test
+            if (!window.showEditBasicInfoModal) {
+                const script1 = document.createElement('script');
+                script1.src = '/phpwebsite/auth.js';
+                document.head.appendChild(script1);
+                
+                const script2 = document.createElement('script');
+                script2.src = '/phpwebsite/profile.js';
+                document.head.appendChild(script2);
+                
+                setTimeout(() => {
+                    if (window.showEditBasicInfoModal) {
+                        showEditBasicInfoModal();
+                        resultDiv.innerHTML = '✅ Basic info modal opened';
+                        log('Basic info modal opened', 'success');
+                    } else {
+                        resultDiv.innerHTML = '❌ Modal function not found';
+                        log('Modal function not found', 'error');
+                    }
+                }, 1000);
+            } else {
+                showEditBasicInfoModal();
+                resultDiv.innerHTML = '✅ Basic info modal opened';
+                log('Basic info modal opened', 'success');
+            }
+        }
+
+        function testContactModal() {
+            log('Testing contact modal...');
+            if (window.showEditContactInfoModal) {
+                showEditContactInfoModal();
+                document.getElementById('modalResult').innerHTML = '✅ Contact modal opened';
+                log('Contact modal opened', 'success');
+            } else {
+                document.getElementById('modalResult').innerHTML = '❌ Contact modal function not found';
+                log('Contact modal function not found', 'error');
+            }
+        }
+
+        function testAcademicModal() {
+            log('Testing academic modal...');
+            if (window.showEditAcademicInfoModal) {
+                showEditAcademicInfoModal();
+                document.getElementById('modalResult').innerHTML = '✅ Academic modal opened';
+                log('Academic modal opened', 'success');
+            } else {
+                document.getElementById('modalResult').innerHTML = '❌ Academic modal function not found';
+                log('Academic modal function not found', 'error');
+            }
+        }
+
+        function loadProfilePage() {
+            log('Loading profile page in iframe...');
+            const frame = document.getElementById('profileFrame');
+            const resultDiv = document.getElementById('frameResult');
+            
+            frame.style.display = 'block';
+            frame.src = '/phpwebsite/profile.html';
+            
+            frame.onload = function() {
+                resultDiv.innerHTML = '✅ Profile page loaded in frame';
+                log('Profile page loaded successfully', 'success');
+            };
+            
+            frame.onerror = function() {
+                resultDiv.innerHTML = '❌ Failed to load profile page';
+                log('Failed to load profile page', 'error');
+            };
+        }
+
+        function reloadFrame() {
+            const frame = document.getElementById('profileFrame');
+            if (frame.src !== 'about:blank') {
+                frame.src = frame.src;
+                log('Reloading profile page frame...');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Profile debug test page loaded');
+        });
+    </script>
+</body>
+</html>

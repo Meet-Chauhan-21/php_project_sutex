@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Editing Debug - VidyaGuru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .step {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .step h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+        .button {
+            background: #007cba;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #005a87;
+        }
+        .success {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .error {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 3px;
+            background: #e9ecef;
+            min-height: 20px;
+        }
+        .profile-data {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Profile Editing Debug Tool</h1>
+        <p>This tool will help debug why profile editing isn't working.</p>
+
+        <!-- Step 1: Login -->
+        <div class="step">
+            <h3>Step 1: Login Test</h3>
+            <p>First, let's login with a test account:</p>
+            <button class="button" onclick="testLogin('jane@example.com', 'password123')">Login as Jane</button>
+            <button class="button" onclick="testLogin('john@example.com', 'password123')">Login as John</button>
+            <button class="button" onclick="testLogin('mohit@gmail.com', 'password123')">Login as Mohit</button>
+            <div id="loginResult" class="result">Click a login button to test...</div>
+        </div>
+
+        <!-- Step 2: Check Session -->
+        <div class="step">
+            <h3>Step 2: Session Check</h3>
+            <p>Check if we have an active session:</p>
+            <button class="button" onclick="checkSession()">Check Session</button>
+            <div id="sessionResult" class="result">Click to check session...</div>
+        </div>
+
+        <!-- Step 3: Load Profile -->
+        <div class="step">
+            <h3>Step 3: Load Profile Data</h3>
+            <p>Try to load the user's profile:</p>
+            <button class="button" onclick="loadProfile()">Load Profile</button>
+            <div id="profileResult" class="result">Click to load profile...</div>
+        </div>
+
+        <!-- Step 4: Test Profile Update -->
+        <div class="step">
+            <h3>Step 4: Test Profile Update</h3>
+            <p>Try to update profile data:</p>
+            <button class="button" onclick="testUpdate()">Test Update</button>
+            <div id="updateResult" class="result">Click to test update...</div>
+        </div>
+
+        <!-- Step 5: Test Edit Modals -->
+        <div class="step">
+            <h3>Step 5: Test Edit Modals</h3>
+            <p>Test the profile edit modals:</p>
+            <button class="button" onclick="testBasicModal()">Test Basic Info Modal</button>
+            <button class="button" onclick="testContactModal()">Test Contact Modal</button>
+            <button class="button" onclick="testAcademicModal()">Test Academic Modal</button>
+            <div id="modalResult" class="result">Click to test modals...</div>
+        </div>
+
+        <!-- Console Log -->
+        <div class="step">
+            <h3>Console Log</h3>
+            <div id="consoleLog" style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 12px;"></div>
+            <button class="button" onclick="clearLog()">Clear Log</button>
+        </div>
+    </div>
+
+    <script src="/phpwebsite/auth.js"></script>
+    <script src="/phpwebsite/profile.js"></script>
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('consoleLog');
+            const color = type === 'error' ? 'red' : type === 'success' ? 'green' : 'black';
+            logDiv.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(`[${timestamp}] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('consoleLog').innerHTML = '';
+        }
+
+        async function testLogin(email, password) {
+            log(`Testing login with ${email}...`);
+            const resultDiv = document.getElementById('loginResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const result = await response.json();
+                log(`Login response: ${JSON.stringify(result)}`);
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ Login successful!</span><br>User: ${result.user.first_name} ${result.user.last_name}`;
+                    log('Login successful', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Login failed: ${result.error}</span>`;
+                    log(`Login failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Network error: ${error.message}</span>`;
+                log(`Login error: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkSession() {
+            log('Checking session...');
+            const resultDiv = document.getElementById('sessionResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const result = await response.json();
+                log(`Session check response: ${JSON.stringify(result)}`);
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ Active session found!</span><br>User ID: ${result.user.id}<br>Email: ${result.user.email}`;
+                    log('Active session found', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ No active session: ${result.error}</span>`;
+                    log(`No active session: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Network error: ${error.message}</span>`;
+                log(`Session check error: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadProfile() {
+            log('Loading profile data...');
+            const resultDiv = document.getElementById('profileResult');
+            
+            try {
+                const response = await fetch('/phpwebsite/php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const result = await response.json();
+                log(`Profile load response: ${JSON.stringify(result)}`);
+                
+                if (result.success) {
+                    const user = result.user;
+                    const additionalInfo = user.additional_info || {};
+                    
+                    resultDiv.innerHTML = `
+                        <span class="success">✅ Profile loaded successfully!</span>
+                        <div class="profile-data">
+                            <strong>Name:</strong> ${user.first_name} ${user.last_name}<br>
+                            <strong>Email:</strong> ${user.email}<br>
+                            <strong>Phone:</strong> ${user.phone || 'Not set'}<br>
+                            <strong>Program:</strong> ${user.program || 'Not set'}<br>
+                            <strong>Gender:</strong> ${additionalInfo.gender || 'Not set'}<br>
+                            <strong>DOB:</strong> ${additionalInfo.dateOfBirth || 'Not set'}<br>
+                            <strong>Address:</strong> ${additionalInfo.address || 'Not set'}
+                        </div>
+                    `;
+                    log('Profile loaded successfully', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Failed to load profile: ${result.error}</span>`;
+                    log(`Failed to load profile: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Network error: ${error.message}</span>`;
+                log(`Profile load error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testUpdate() {
+            log('Testing profile update...');
+            const resultDiv = document.getElementById('updateResult');
+            
+            const testData = {
+                firstName: 'Updated',
+                lastName: 'Name',
+                phone: '9876543210',
+                address: 'Test Address Update'
+            };
+            
+            try {
+                const response = await fetch('/phpwebsite/php/update_user_profile.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(testData)
+                });
+                
+                const result = await response.json();
+                log(`Update response: ${JSON.stringify(result)}`);
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `<span class="success">✅ Profile updated successfully!</span><br>Message: ${result.message}`;
+                    log('Profile updated successfully', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ Update failed: ${result.error}</span>`;
+                    log(`Update failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Network error: ${error.message}</span>`;
+                log(`Update error: ${error.message}`, 'error');
+            }
+        }
+
+        function testBasicModal() {
+            log('Testing basic info modal...');
+            const resultDiv = document.getElementById('modalResult');
+            
+            try {
+                if (typeof showEditBasicInfoModal === 'function') {
+                    showEditBasicInfoModal();
+                    resultDiv.innerHTML = `<span class="success">✅ Basic info modal opened successfully!</span>`;
+                    log('Basic info modal opened', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ showEditBasicInfoModal function not found</span>`;
+                    log('showEditBasicInfoModal function not found', 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Modal error: ${error.message}</span>`;
+                log(`Modal error: ${error.message}`, 'error');
+            }
+        }
+
+        function testContactModal() {
+            log('Testing contact info modal...');
+            const resultDiv = document.getElementById('modalResult');
+            
+            try {
+                if (typeof showEditContactInfoModal === 'function') {
+                    showEditContactInfoModal();
+                    resultDiv.innerHTML = `<span class="success">✅ Contact info modal opened successfully!</span>`;
+                    log('Contact info modal opened', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ showEditContactInfoModal function not found</span>`;
+                    log('showEditContactInfoModal function not found', 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Modal error: ${error.message}</span>`;
+                log(`Modal error: ${error.message}`, 'error');
+            }
+        }
+
+        function testAcademicModal() {
+            log('Testing academic info modal...');
+            const resultDiv = document.getElementById('modalResult');
+            
+            try {
+                if (typeof showEditAcademicInfoModal === 'function') {
+                    showEditAcademicInfoModal();
+                    resultDiv.innerHTML = `<span class="success">✅ Academic info modal opened successfully!</span>`;
+                    log('Academic info modal opened', 'success');
+                } else {
+                    resultDiv.innerHTML = `<span class="error">❌ showEditAcademicInfoModal function not found</span>`;
+                    log('showEditAcademicInfoModal function not found', 'error');
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span class="error">❌ Modal error: ${error.message}</span>`;
+                log(`Modal error: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Debug tool loaded successfully');
+            checkSession();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Picture Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .test-section { margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 5px; }
+        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .picture-display { margin: 20px 0; text-align: center; }
+        .picture-display img { max-width: 200px; max-height: 200px; border: 2px solid #ddd; border-radius: 10px; }
+        input[type="file"] { margin: 10px 0; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Profile Picture Test Tool</h1>
+        
+        <div class="status info">
+            <strong>This tool tests profile picture upload, save, and display functionality.</strong>
+        </div>
+
+        <!-- Login Section -->
+        <div class="test-section">
+            <h3>Step 1: Login</h3>
+            <div id="loginStatus"></div>
+            <div id="loginForm">
+                <input type="email" id="email" placeholder="Email" value="test@example.com">
+                <input type="password" id="password" placeholder="Password" value="testpass">
+                <br>
+                <button class="btn btn-primary" onclick="login()">Login</button>
+            </div>
+        </div>
+
+        <!-- Current Picture Display -->
+        <div class="test-section">
+            <h3>Step 2: Current Profile Picture</h3>
+            <button class="btn btn-success" onclick="loadCurrentPicture()">Load Current Picture</button>
+            <div id="currentPictureStatus"></div>
+            <div class="picture-display">
+                <img id="currentPicture" style="display: none;">
+                <div id="noPictureMsg" style="display: none; color: #666;">No profile picture found</div>
+            </div>
+        </div>
+
+        <!-- Upload New Picture -->
+        <div class="test-section">
+            <h3>Step 3: Upload New Picture</h3>
+            <input type="file" id="fileInput" accept="image/*">
+            <br>
+            <button class="btn btn-primary" onclick="uploadPicture()">Upload Selected File</button>
+            <button class="btn btn-warning" onclick="uploadTestPicture()">Upload Test Picture</button>
+            <div id="uploadStatus"></div>
+        </div>
+
+        <!-- Test Database Directly -->
+        <div class="test-section">
+            <h3>Step 4: Direct Database Test</h3>
+            <button class="btn btn-success" onclick="testDatabase()">Test Database Save/Load</button>
+            <button class="btn btn-danger" onclick="clearPicture()">Clear Picture</button>
+            <div id="databaseStatus"></div>
+        </div>
+
+        <!-- Debug Information -->
+        <div class="test-section">
+            <h3>Debug Information</h3>
+            <button class="btn btn-warning" onclick="showDebugInfo()">Show Debug Info</button>
+            <div id="debugInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSession = null;
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const statusDiv = document.getElementById('loginStatus');
+
+            try {
+                const response = await fetch('php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentSession = data.user;
+                    statusDiv.innerHTML = '<div class="status success">✅ Login successful! User: ' + data.user.name + '</div>';
+                    document.getElementById('loginForm').style.display = 'none';
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">❌ Login failed: ' + data.error + '</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Login error: ' + error.message + '</div>';
+            }
+        }
+
+        async function loadCurrentPicture() {
+            const statusDiv = document.getElementById('currentPictureStatus');
+            const pictureImg = document.getElementById('currentPicture');
+            const noPictureMsg = document.getElementById('noPictureMsg');
+
+            statusDiv.innerHTML = '<div class="status info">🔄 Loading current picture...</div>';
+
+            try {
+                const response = await fetch('php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.user.profile_picture) {
+                    pictureImg.src = data.user.profile_picture;
+                    pictureImg.style.display = 'block';
+                    noPictureMsg.style.display = 'none';
+                    statusDiv.innerHTML = '<div class="status success">✅ Picture loaded! Size: ' + data.user.profile_picture.length + ' characters</div>';
+                } else {
+                    pictureImg.style.display = 'none';
+                    noPictureMsg.style.display = 'block';
+                    statusDiv.innerHTML = '<div class="status warning">⚠️ No picture found in database</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Error loading picture: ' + error.message + '</div>';
+            }
+        }
+
+        async function uploadPicture() {
+            const fileInput = document.getElementById('fileInput');
+            const statusDiv = document.getElementById('uploadStatus');
+
+            if (!fileInput.files[0]) {
+                statusDiv.innerHTML = '<div class="status error">❌ Please select a file first</div>';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            statusDiv.innerHTML = '<div class="status info">🔄 Uploading ' + file.name + '...</div>';
+
+            try {
+                // Convert file to base64
+                const base64 = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+
+                // Upload to server
+                const response = await fetch('php/update_user_profile.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ profile_picture: base64 })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.innerHTML = '<div class="status success">✅ Picture uploaded successfully!</div>';
+                    // Reload current picture to verify
+                    await loadCurrentPicture();
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">❌ Upload failed: ' + data.error + '</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Upload error: ' + error.message + '</div>';
+            }
+        }
+
+        async function uploadTestPicture() {
+            const statusDiv = document.getElementById('uploadStatus');
+            statusDiv.innerHTML = '<div class="status info">🔄 Generating and uploading test picture...</div>';
+
+            // Create a test image
+            const canvas = document.createElement('canvas');
+            canvas.width = 200;
+            canvas.height = 200;
+            const ctx = canvas.getContext('2d');
+
+            // Create gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 200, 200);
+            gradient.addColorStop(0, '#ff6b6b');
+            gradient.addColorStop(1, '#4ecdc4');
+
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 200, 200);
+
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 24px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('TEST', 100, 90);
+            ctx.font = '16px Arial';
+            ctx.fillText('Profile Picture', 100, 120);
+            ctx.font = '12px Arial';
+            ctx.fillText(new Date().toLocaleTimeString(), 100, 140);
+
+            const base64 = canvas.toDataURL('image/png');
+
+            try {
+                const response = await fetch('php/update_user_profile.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ profile_picture: base64 })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.innerHTML = '<div class="status success">✅ Test picture uploaded successfully!</div>';
+                    await loadCurrentPicture();
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">❌ Test upload failed: ' + data.error + '</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Test upload error: ' + error.message + '</div>';
+            }
+        }
+
+        async function testDatabase() {
+            const statusDiv = document.getElementById('databaseStatus');
+            statusDiv.innerHTML = '<div class="status info">🔄 Testing database operations...</div>';
+
+            try {
+                const response = await fetch('test_picture_persistence.php');
+                const text = await response.text();
+                statusDiv.innerHTML = '<div class="status info"><strong>Database Test Results:</strong><pre>' + text + '</pre></div>';
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Database test error: ' + error.message + '</div>';
+            }
+        }
+
+        async function clearPicture() {
+            const statusDiv = document.getElementById('databaseStatus');
+            
+            if (!confirm('Are you sure you want to clear the profile picture?')) {
+                return;
+            }
+
+            statusDiv.innerHTML = '<div class="status info">🔄 Clearing picture...</div>';
+
+            try {
+                const response = await fetch('php/update_user_profile.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ profile_picture: null })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusDiv.innerHTML = '<div class="status success">✅ Picture cleared successfully!</div>';
+                    await loadCurrentPicture();
+                } else {
+                    statusDiv.innerHTML = '<div class="status error">❌ Clear failed: ' + data.error + '</div>';
+                }
+            } catch (error) {
+                statusDiv.innerHTML = '<div class="status error">❌ Clear error: ' + error.message + '</div>';
+            }
+        }
+
+        async function showDebugInfo() {
+            const debugDiv = document.getElementById('debugInfo');
+            debugDiv.innerHTML = '<div class="status info">🔄 Gathering debug information...</div>';
+
+            let debugInfo = '';
+
+            // Test session
+            try {
+                const sessionResponse = await fetch('php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                const sessionData = await sessionResponse.json();
+                debugInfo += 'Session Status: ' + (sessionData.success ? '✅ Active' : '❌ Invalid') + '\n';
+                if (sessionData.user) {
+                    debugInfo += 'User: ' + sessionData.user.first_name + ' ' + sessionData.user.last_name + '\n';
+                    debugInfo += 'Email: ' + sessionData.user.email + '\n';
+                    debugInfo += 'Has Picture: ' + (sessionData.user.profile_picture ? 'Yes (' + sessionData.user.profile_picture.length + ' chars)' : 'No') + '\n';
+                }
+            } catch (error) {
+                debugInfo += 'Session Error: ' + error.message + '\n';
+            }
+
+            debugInfo += '\n';
+
+            // Test database structure
+            try {
+                const dbResponse = await fetch('db_fix_endpoints.php?action=check_structure');
+                const dbData = await dbResponse.text();
+                debugInfo += 'Database Structure:\n' + dbData + '\n';
+            } catch (error) {
+                debugInfo += 'Database Error: ' + error.message + '\n';
+            }
+
+            debugDiv.innerHTML = '<div class="status info"><strong>Debug Information:</strong><pre>' + debugInfo + '</pre></div>';
+        }
+
+        // Auto-load current picture on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Try to load current picture automatically
+            loadCurrentPicture();
+        });
+    </script>
+</body>
+</html>

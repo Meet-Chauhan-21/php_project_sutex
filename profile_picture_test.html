@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Picture Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .btn-primary { background: #3b82f6; color: white; }
+        .btn-secondary { background: #6b7280; color: white; }
+        .result { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .profile-pic-preview { max-width: 200px; max-height: 200px; border: 2px solid #ddd; border-radius: 8px; margin: 10px 0; }
+        input[type="file"] { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🖼️ Profile Picture Persistence Test</h1>
+        
+        <div class="test-section">
+            <h3>Step 1: Login</h3>
+            <input type="email" id="email" placeholder="Email" value="test@example.com">
+            <input type="password" id="password" placeholder="Password" value="testpassword">
+            <button class="btn btn-primary" onclick="login()">Login</button>
+            <div id="loginResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Step 2: Upload Profile Picture</h3>
+            <input type="file" id="imageUpload" accept="image/*">
+            <button class="btn btn-primary" onclick="uploadProfilePicture()">Upload Picture</button>
+            <div id="uploadResult"></div>
+            <img id="uploadPreview" class="profile-pic-preview" style="display: none;">
+        </div>
+
+        <div class="test-section">
+            <h3>Step 3: Get Current Profile Data</h3>
+            <button class="btn btn-secondary" onclick="getCurrentProfile()">Get Profile Data</button>
+            <div id="profileResult"></div>
+            <img id="currentPreview" class="profile-pic-preview" style="display: none;">
+        </div>
+
+        <div class="test-section">
+            <h3>Step 4: Test Database Storage</h3>
+            <button class="btn btn-secondary" onclick="testDatabaseStorage()">Check Database</button>
+            <div id="databaseResult"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSession = null;
+
+        async function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('loginResult');
+            
+            try {
+                const response = await fetch('php/login_user.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentSession = data.user;
+                    resultDiv.innerHTML = `<div class="result success">✅ Login successful! User: ${data.user.name}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">❌ Login failed: ${data.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ Login error: ${error.message}</div>`;
+            }
+        }
+
+        async function uploadProfilePicture() {
+            const fileInput = document.getElementById('imageUpload');
+            const resultDiv = document.getElementById('uploadResult');
+            const previewImg = document.getElementById('uploadPreview');
+            
+            if (!fileInput.files[0]) {
+                resultDiv.innerHTML = '<div class="result error">❌ Please select an image file</div>';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            
+            // Convert to base64
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64 = e.target.result;
+                
+                // Show preview
+                previewImg.src = base64;
+                previewImg.style.display = 'block';
+                
+                try {
+                    // Upload to server
+                    const response = await fetch('php/update_user_profile.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ profile_picture: base64 })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        resultDiv.innerHTML = '<div class="result success">✅ Profile picture uploaded successfully!</div>';
+                    } else {
+                        resultDiv.innerHTML = `<div class="result error">❌ Upload failed: ${data.error}</div>`;
+                    }
+                } catch (error) {
+                    resultDiv.innerHTML = `<div class="result error">❌ Upload error: ${error.message}</div>`;
+                }
+            };
+            
+            reader.readAsDataURL(file);
+        }
+
+        async function getCurrentProfile() {
+            const resultDiv = document.getElementById('profileResult');
+            const previewImg = document.getElementById('currentPreview');
+            
+            try {
+                const response = await fetch('php/get_user_profile.php', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.user;
+                    let profileInfo = `
+                        <div class="result success">
+                            <strong>✅ Profile loaded successfully!</strong><br>
+                            Name: ${user.first_name} ${user.last_name}<br>
+                            Email: ${user.email}<br>
+                            Profile Picture: ${user.profile_picture ? 'Present (' + user.profile_picture.length + ' chars)' : 'None'}
+                        </div>
+                    `;
+                    
+                    if (user.profile_picture) {
+                        previewImg.src = user.profile_picture;
+                        previewImg.style.display = 'block';
+                    } else {
+                        previewImg.style.display = 'none';
+                    }
+                    
+                    resultDiv.innerHTML = profileInfo;
+                } else {
+                    resultDiv.innerHTML = `<div class="result error">❌ Failed to get profile: ${data.error}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        async function testDatabaseStorage() {
+            const resultDiv = document.getElementById('databaseResult');
+            
+            try {
+                const response = await fetch('check_database_structure.php');
+                const data = await response.text();
+                
+                resultDiv.innerHTML = `<div class="result info"><strong>Database Check:</strong><br><pre>${data}</pre></div>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="result error">❌ Database check error: ${error.message}</div>`;
+            }
+        }
+
+        // Create a sample image for testing
+        function createSampleImage() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 100;
+            canvas.height = 100;
+            const ctx = canvas.getContext('2d');
+            
+            // Create a simple gradient
+            const gradient = ctx.createLinearGradient(0, 0, 100, 100);
+            gradient.addColorStop(0, '#ff6b6b');
+            gradient.addColorStop(1, '#4ecdc4');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 100, 100);
+            
+            // Add some text
+            ctx.fillStyle = 'white';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('TEST', 50, 55);
+            
+            return canvas.toDataURL('image/png');
+        }
+
+        // Add a button to use sample image
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadSection = document.querySelector('.test-section:nth-child(3)');
+            const sampleBtn = document.createElement('button');
+            sampleBtn.className = 'btn btn-secondary';
+            sampleBtn.textContent = 'Use Sample Image';
+            sampleBtn.onclick = function() {
+                const base64 = createSampleImage();
+                const previewImg = document.getElementById('uploadPreview');
+                previewImg.src = base64;
+                previewImg.style.display = 'block';
+                
+                // Simulate file upload
+                const uploadResult = document.getElementById('uploadResult');
+                uploadResult.innerHTML = '<div class="result info">Sample image ready. Click "Upload Picture" to save.</div>';
+                
+                // Create a mock file
+                const mockFile = new File([''], 'sample.png', { type: 'image/png' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(mockFile);
+                document.getElementById('imageUpload').files = dataTransfer.files;
+            };
+            uploadSection.appendChild(sampleBtn);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Test - VidyaGuru College</title>
+    <link rel="stylesheet" href="assets/fonts-local.css">
+    <link rel="stylesheet" href="assets/fontawesome-local.css">
+    <link rel="stylesheet" href="new.css">
+    <style>
+        .test-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .test-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .test-btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            background: var(--gradient-primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+        }
+        .instructions {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1><i class="fas fa-tools"></i> Profile Testing Suite</h1>
+            <p>Test the profile editing functionality</p>
+        </div>
+        
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Instructions</h3>
+            <ol>
+                <li><strong>Create Test Login:</strong> Click "Create Test Session" to simulate being logged in</li>
+                <li><strong>Open Profile:</strong> Click "Open Profile Page" to access the profile interface</li>
+                <li><strong>Test Editing:</strong> Try editing different sections by clicking the edit buttons</li>
+                <li><strong>Save Changes:</strong> Submit the forms to test the save functionality</li>
+            </ol>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="#" onclick="createTestSession()" class="test-btn">
+                <i class="fas fa-user-plus"></i> Create Test Session
+            </a>
+            
+            <a href="profile.html" class="test-btn">
+                <i class="fas fa-user-circle"></i> Open Profile Page
+            </a>
+            
+            <a href="#" onclick="clearSession()" class="test-btn" style="background: #ef4444;">
+                <i class="fas fa-sign-out-alt"></i> Clear Session
+            </a>
+        </div>
+
+        <div id="sessionStatus" style="margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center;"></div>
+
+        <div style="margin-top: 30px;">
+            <h3><i class="fas fa-list"></i> Test Features Available</h3>
+            <ul style="list-style: none; padding: 0;">
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Inline profile editing (no modals)</li>
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Real-time form validation</li>
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Profile completion tracking</li>
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Basic Information editing</li>
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Contact Information editing</li>
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Academic Information editing</li>
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Preferences management</li>
+                <li style="padding: 8px 0;"><i class="fas fa-check text-success"></i> Success/Error notifications</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function createTestSession() {
+            // Create a test session in localStorage
+            const testSession = {
+                userId: 1,
+                email: 'test@vidyaguru.edu',
+                firstName: 'John',
+                lastName: 'Doe',
+                role: 'student',
+                loginTime: new Date().toISOString()
+            };
+
+            localStorage.setItem('vidyaGuruSession', JSON.stringify(testSession));
+            localStorage.setItem('userLoggedIn', 'true');
+
+            updateSessionStatus('success', 'Test session created successfully! You can now access the profile page.');
+        }
+
+        function clearSession() {
+            localStorage.removeItem('vidyaGuruSession');
+            localStorage.removeItem('userLoggedIn');
+            sessionStorage.removeItem('vidyaGuruSession');
+
+            updateSessionStatus('info', 'Session cleared. You are now logged out.');
+        }
+
+        function updateSessionStatus(type, message) {
+            const statusDiv = document.getElementById('sessionStatus');
+            const colors = {
+                success: '#10b981',
+                error: '#ef4444',
+                info: '#3b82f6'
+            };
+
+            statusDiv.style.background = colors[type] + '20';
+            statusDiv.style.border = `2px solid ${colors[type]}`;
+            statusDiv.style.color = colors[type];
+            statusDiv.innerHTML = `<i class="fas fa-info-circle"></i> ${message}`;
+        }
+
+        function checkCurrentSession() {
+            const session = localStorage.getItem('vidyaGuruSession');
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+
+            if (session && isLoggedIn) {
+                const sessionData = JSON.parse(session);
+                updateSessionStatus('success', `Currently logged in as: ${sessionData.firstName} ${sessionData.lastName} (${sessionData.email})`);
+            } else {
+                updateSessionStatus('info', 'No active session. Create a test session to begin.');
+            }
+        }
+
+        // Check session status on page load
+        document.addEventListener('DOMContentLoaded', checkCurrentSession);
+    </script>
+</body>
+</html>

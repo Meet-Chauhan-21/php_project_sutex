@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Status Check - VidyaGuru</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .status-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 5px 0;
+        }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .warning { background-color: #fff3cd; color: #856404; }
+        .info { background-color: #d1ecf1; color: #0c5460; }
+        .test-button {
+            background: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .loading {
+            color: #007bff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-container">
+        <h1>🔍 VidyaGuru Website Status Check</h1>
+        
+        <div id="serverStatus" class="loading">🔄 Checking server status...</div>
+        <div id="databaseStatus" class="loading">🔄 Checking database connection...</div>
+        <div id="filesStatus" class="loading">🔄 Checking critical files...</div>
+        <div id="endpointsStatus" class="loading">🔄 Testing API endpoints...</div>
+        
+        <h3>🔗 Quick Links:</h3>
+        <div>
+            <a href="/index.html" class="test-button" target="_blank">Home Page</a>
+            <a href="/login.html" class="test-button" target="_blank">Login Page</a>
+            <a href="/profile.html" class="test-button" target="_blank">Profile Page</a>
+            <a href="/database_test.html" class="test-button" target="_blank">Database Test</a>
+            <a href="/test_php.php" class="test-button" target="_blank">PHP Info</a>
+        </div>
+        
+        <div id="detailedResults"></div>
+    </div>
+
+    <script>
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('/test_php.php');
+                if (response.ok) {
+                    document.getElementById('serverStatus').innerHTML = 
+                        '<div class="success">✅ PHP Server is running on localhost:8081</div>';
+                    return true;
+                }
+            } catch (error) {
+                document.getElementById('serverStatus').innerHTML = 
+                    '<div class="error">❌ PHP Server not responding: ' + error.message + '</div>';
+                return false;
+            }
+        }
+        
+        async function checkDatabaseStatus() {
+            try {
+                const response = await fetch('/quick_db_test.php');
+                const text = await response.text();
+                
+                if (text.includes('Database connection successful')) {
+                    document.getElementById('databaseStatus').innerHTML = 
+                        '<div class="success">✅ Database connection working</div>';
+                    return true;
+                } else if (text.includes('MySQL is running')) {
+                    document.getElementById('databaseStatus').innerHTML = 
+                        '<div class="warning">⚠️ MySQL running but vidyaguru_db may not exist</div>';
+                    return false;
+                } else {
+                    document.getElementById('databaseStatus').innerHTML = 
+                        '<div class="error">❌ Database connection failed</div>';
+                    return false;
+                }
+            } catch (error) {
+                document.getElementById('databaseStatus').innerHTML = 
+                    '<div class="error">❌ Database check failed: ' + error.message + '</div>';
+                return false;
+            }
+        }
+        
+        async function checkFiles() {
+            const files = [
+                'index.html',
+                'login.html', 
+                'profile.html',
+                'php/config.php',
+                'php/login_user.php',
+                'php/get_user_profile.php'
+            ];
+            
+            let results = '';
+            let allGood = true;
+            
+            for (const file of files) {
+                try {
+                    const response = await fetch('/' + file, { method: 'HEAD' });
+                    if (response.ok) {
+                        results += `<div class="success">✅ ${file}</div>`;
+                    } else {
+                        results += `<div class="error">❌ ${file} (${response.status})</div>`;
+                        allGood = false;
+                    }
+                } catch (error) {
+                    results += `<div class="error">❌ ${file} (Error: ${error.message})</div>`;
+                    allGood = false;
+                }
+            }
+            
+            document.getElementById('filesStatus').innerHTML = 
+                (allGood ? '<div class="success">✅ All critical files accessible</div>' : 
+                          '<div class="warning">⚠️ Some files have issues</div>') + 
+                '<details><summary>File Details</summary>' + results + '</details>';
+        }
+        
+        async function checkEndpoints() {
+            const endpoints = [
+                { url: '/php/login_user.php', method: 'POST', data: {email: 'test', password: 'test'} },
+                { url: '/php/get_user_profile.php', method: 'GET' },
+                { url: '/php/check_users.php', method: 'GET' }
+            ];
+            
+            let results = '';
+            
+            for (const endpoint of endpoints) {
+                try {
+                    const options = {
+                        method: endpoint.method,
+                        headers: { 'Content-Type': 'application/json' }
+                    };
+                    
+                    if (endpoint.data) {
+                        options.body = JSON.stringify(endpoint.data);
+                    }
+                    
+                    const response = await fetch(endpoint.url, options);
+                    const data = await response.json();
+                    
+                    if (response.ok || response.status === 400 || response.status === 401) {
+                        // These status codes mean the endpoint is working
+                        results += `<div class="success">✅ ${endpoint.url} - Responding</div>`;
+                    } else {
+                        results += `<div class="error">❌ ${endpoint.url} - Error ${response.status}</div>`;
+                    }
+                } catch (error) {
+                    results += `<div class="error">❌ ${endpoint.url} - ${error.message}</div>`;
+                }
+            }
+            
+            document.getElementById('endpointsStatus').innerHTML = 
+                '<div class="info">📡 API Endpoints Status</div>' +
+                '<details><summary>Endpoint Details</summary>' + results + '</details>';
+        }
+        
+        async function runAllChecks() {
+            await checkServerStatus();
+            await checkDatabaseStatus();
+            await checkFiles();
+            await checkEndpoints();
+            
+            // Show summary
+            document.getElementById('detailedResults').innerHTML = `
+                <h3>🎯 Summary & Recommendations:</h3>
+                <div class="info">
+                    <p><strong>If website is not working:</strong></p>
+                    <ol>
+                        <li>Make sure XAMPP MySQL service is running</li>
+                        <li>Check if vidyaguru_db database exists in phpMyAdmin</li>
+                        <li>Verify PHP server is running on port 8081</li>
+                        <li>Clear browser cache and try again</li>
+                    </ol>
+                    
+                    <p><strong>Quick Fixes:</strong></p>
+                    <ul>
+                        <li><a href="http://localhost/phpmyadmin" target="_blank">Open phpMyAdmin</a> to check database</li>
+                        <li>Restart XAMPP if needed</li>
+                        <li>Try accessing <a href="/login.html" target="_blank">login page</a> directly</li>
+                    </ul>
+                </div>
+            `;
+        }
+        
+        // Run checks on page load
+        window.onload = runAllChecks;
+    </script>
+</body>
+</html>

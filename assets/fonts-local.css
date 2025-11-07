@@ -1,0 +1,87 @@
+/* Local Font Fallback - System Fonts Only */
+
+/* Inter font fallback - using system fonts that provide similar appearance */
+@font-face {
+    font-family: 'Inter-Local';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Segoe UI Light'), local('Helvetica Neue Light'), local('Arial');
+}
+
+@font-face {
+    font-family: 'Inter-Local';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Segoe UI'), local('Helvetica Neue'), local('Arial');
+}
+
+@font-face {
+    font-family: 'Inter-Local';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Segoe UI Semibold'), local('Helvetica Neue Medium'), local('Arial');
+}
+
+@font-face {
+    font-family: 'Inter-Local';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Segoe UI Semibold'), local('Helvetica Neue Semibold'), local('Arial Bold');
+}
+
+@font-face {
+    font-family: 'Inter-Local';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Segoe UI Bold'), local('Helvetica Neue Bold'), local('Arial Bold');
+}
+
+@font-face {
+    font-family: 'Inter-Local';
+    font-style: normal;
+    font-weight: 800;
+    src: local('Segoe UI Bold'), local('Helvetica Neue Heavy'), local('Arial Black');
+}
+
+@font-face {
+    font-family: 'Inter-Local';
+    font-style: normal;
+    font-weight: 900;
+    src: local('Segoe UI Black'), local('Helvetica Neue Heavy'), local('Arial Black');
+}
+
+/* Poppins font fallback for enroll_1.html */
+@font-face {
+    font-family: 'Poppins-Local';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Segoe UI Light'), local('Helvetica Neue Light'), local('Arial');
+}
+
+@font-face {
+    font-family: 'Poppins-Local';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Segoe UI'), local('Helvetica Neue'), local('Arial');
+}
+
+@font-face {
+    font-family: 'Poppins-Local';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Segoe UI Semibold'), local('Helvetica Neue Medium'), local('Arial');
+}
+
+@font-face {
+    font-family: 'Poppins-Local';
+    font-style: normal;
+    font-weight: 600;
+    src: local('Segoe UI Semibold'), local('Helvetica Neue Semibold'), local('Arial Bold');
+}
+
+@font-face {
+    font-family: 'Poppins-Local';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Segoe UI Bold'), local('Helvetica Neue Bold'), local('Arial Bold');
+}
