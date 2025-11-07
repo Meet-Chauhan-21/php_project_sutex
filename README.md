@@ -57,7 +57,7 @@ define('GOOGLE_REDIRECT_URI', 'http://localhost:8081/php/google_callback.php');
 ### Step 3: Database Setup
 
 1. Start XAMPP (Apache + MySQL)
-2. Open phpMyAdmin: `http://localhost/phpmyadmin`
+2. Open phpMyAdmin: `http://localhost/phpmyadmin or http://localhost:8080/phpmyadmin ` 
 3. Run the database creation script:
    - Visit: `http://localhost:8081/create_vidhyaguru_db.php`
    - Or manually import: `create_vidhyaguru_db.sql`
