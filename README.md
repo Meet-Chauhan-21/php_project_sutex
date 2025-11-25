@@ -54,13 +54,36 @@ define('GOOGLE_REDIRECT_URI', 'http://localhost:8081/php/google_callback.php');
 ?>
 ```
 
-### Step 3: Database Setup
+### Step 3: Import Database in phpMyAdmin
 
-1. Start XAMPP (Apache + MySQL)
-2. Open phpMyAdmin: `http://localhost/phpmyadmin or http://localhost:8080/phpmyadmin ` 
-3. Run the database creation script:
-   - Visit: `http://localhost:8081/create_vidhyaguru_db.php`
-   - Or manually import: `create_vidhyaguru_db.sql`
+1. **Start XAMPP Services**
+   - Open XAMPP Control Panel
+   - Start **Apache** and **MySQL** modules
+   - Wait until both show green "Running" status
+
+2. **Access phpMyAdmin**
+   - Open your browser and go to: `http://localhost/phpmyadmin`
+   - Alternative port: `http://localhost:8080/phpmyadmin`
+   - Login with default credentials (Username: `root`, Password: leave blank)
+
+3. **Create Database**
+   - Click on "New" in the left sidebar
+   - Enter database name: `vidhyaguru_db`
+   - Select Collation: `utf8mb4_unicode_ci`
+   - Click "Create"
+
+4. **Import Database Structure & Data**
+   - Select the `vidhyaguru_db` database from left sidebar
+   - Click on "Import" tab at the top
+   - Click "Choose File" button
+   - Navigate to your project folder and select: `vidhyaguru_db (3).sql` or `create_vidhyaguru_db.sql`
+   - Scroll down and click "Go" button
+   - Wait for success message: "Import has been successfully finished"
+
+5. **Verify Database Tables**
+   - Click on `vidhyaguru_db` in left sidebar
+   - You should see tables: `users`, `applications`, `admin_users`
+   - Click on each table to verify structure
 
 ### Step 4: Configure Database Connection
 
@@ -74,11 +97,207 @@ $DB_NAME = 'vidhyaguru_db';
 $DB_PORT = 3306;
 ```
 
-### Step 5: Start the Application
+### Step 5: Run the Website
 
-1. Move the project to XAMPP htdocs: `C:\xampp\htdocs\phpwebsite`
-2. Start Apache and MySQL in XAMPP Control Panel
-3. Visit: `http://localhost:8081/index.html`
+#### Method 1: Using XAMPP (Recommended)
+
+1. **Copy Project to XAMPP htdocs**
+   ```bash
+   # Copy the entire project folder to:
+   C:\xampp\htdocs\phpwebsite
+   ```
+
+2. **Start XAMPP Services**
+   - Open XAMPP Control Panel
+   - Click "Start" on **Apache** module
+   - Click "Start" on **MySQL** module
+   - Both should show green "Running" status
+
+3. **Access the Website**
+   - Open your browser
+   - Navigate to: `http://localhost/phpwebsite/index.html`
+   - Alternative with port: `http://localhost:8081/index.html`
+
+4. **Navigate the Website**
+   - **Home Page**: `http://localhost/phpwebsite/index.html`
+   - **Login Page**: `http://localhost/phpwebsite/login.html`
+   - **Register Page**: `http://localhost/phpwebsite/register.html`
+   - **Admission Form**: `http://localhost/phpwebsite/admission.html`
+   - **Profile Page**: `http://localhost/phpwebsite/profile.html`
+   - **Admin Dashboard**: `http://localhost/phpwebsite/admin.html`
+
+#### Method 2: Using Batch File
+
+1. Double-click `start_website.bat` in the project folder
+2. Browser will automatically open the website
+
+#### Troubleshooting
+
+- **Port 80/443 already in use**: Change Apache port in XAMPP config
+- **MySQL not starting**: Check if port 3306 is available
+- **404 Error**: Verify project is in correct htdocs folder
+- **Database connection error**: Check `php/config.php` settings
+
+## 💾 How to Store Data in Database
+
+### 1. **User Registration** (Automatic Storage)
+
+When a user registers on the website:
+
+1. Go to: `http://localhost/phpwebsite/register.html`
+2. Fill in the registration form:
+   - First Name, Last Name
+   - Email (unique)
+   - Password
+3. Click "Register"
+4. **Data automatically stored in `users` table**
+
+**Verify in phpMyAdmin:**
+```sql
+SELECT * FROM users ORDER BY id DESC LIMIT 10;
+```
+
+### 2. **Google OAuth Login** (Automatic Storage)
+
+When a user logs in with Google:
+
+1. Click "Login with Google" on login page
+2. Authorize with Google account
+3. **User data automatically stored in `users` table**
+   - Email, Name, Google ID
+   - Profile picture URL
+
+### 3. **Admission Form Submission** (Automatic Storage)
+
+When a student submits admission application:
+
+1. Go to: `http://localhost/phpwebsite/admission.html`
+2. Fill in all required fields:
+   - Personal Information
+   - Contact Details
+   - Program Selection
+   - Educational Background
+   - Guardian Information
+3. Click "Submit Application"
+4. **Data automatically stored in `applications` table**
+
+**Verify in phpMyAdmin:**
+```sql
+SELECT id, full_name, email, program, status, submitted_at 
+FROM applications 
+ORDER BY submitted_at DESC;
+```
+
+### 4. **Profile Updates** (Automatic Storage)
+
+When a user updates their profile:
+
+1. Login to the website
+2. Go to Profile page
+3. Click "Edit Profile"
+4. Update information (name, phone, address, etc.)
+5. Click "Save Changes"
+6. **Data automatically updated in `users` table**
+
+### 5. **Manual Data Entry via phpMyAdmin**
+
+To manually add data:
+
+1. Open phpMyAdmin: `http://localhost/phpmyadmin`
+2. Select `vidhyaguru_db` database
+3. Click on desired table (users/applications)
+4. Click "Insert" tab
+5. Fill in the form fields
+6. Click "Go" to save
+
+**Example: Add New User Manually**
+```sql
+INSERT INTO users (first_name, last_name, email, password_hash) 
+VALUES ('John', 'Doe', 'john@example.com', '$2y$10$...');
+```
+
+**Example: Add New Application Manually**
+```sql
+INSERT INTO applications (user_id, first_name, last_name, email, phone, program, status) 
+VALUES (1, 'John', 'Doe', 'john@example.com', '1234567890', 'BCA', 'pending');
+```
+
+### 6. **View Stored Data**
+
+#### Via phpMyAdmin:
+1. Open: `http://localhost/phpmyadmin`
+2. Select `vidhyaguru_db`
+3. Click on table name to view data
+4. Click "Browse" to see all records
+
+#### Via SQL Queries:
+```sql
+-- View all users
+SELECT * FROM users;
+
+-- View all applications
+SELECT * FROM applications WHERE status = 'pending';
+
+-- View applications with user details
+SELECT a.*, u.email, u.first_name 
+FROM applications a 
+JOIN users u ON a.user_id = u.id;
+
+-- Count applications by program
+SELECT program, COUNT(*) as total 
+FROM applications 
+GROUP BY program;
+```
+
+### 7. **Admin Dashboard** (View & Manage Data)
+
+1. Go to: `http://localhost/phpwebsite/admin.html`
+2. Login with admin credentials
+3. View all applications and user data
+4. Approve/Reject applications
+5. **Changes automatically saved to database**
+
+## 📊 Database Schema
+
+### Users Table
+```sql
+- id (Primary Key)
+- first_name
+- last_name
+- email (Unique)
+- password_hash
+- phone
+- address
+- profile_picture
+- created_at
+- updated_at
+```
+
+### Applications Table
+```sql
+- id (Primary Key)
+- user_id (Foreign Key → users.id)
+- first_name, last_name, full_name
+- email, phone, dob, gender
+- program, session
+- last_qualification, percentage, passing_year, board
+- address, city, state, pincode
+- guardian_name, guardian_phone
+- status (pending/approved/rejected)
+- submitted_at, updated_at
+```
+
+### Admin Users Table
+```sql
+- id (Primary Key)
+- username (Unique)
+- email (Unique)
+- password_hash
+- role (admin/super_admin)
+- created_at, updated_at
+```
+
+### Step 5: Start the Application
 
 ## 📂 Project Structure
 
@@ -137,8 +356,26 @@ Edit the program options in `admission.html`:
 ## 📊 Database Tables
 
 - **users** - Student/user accounts
-- **applications** - Admission applications
+- **applications** - Admission applications  
 - **admin_users** - Admin accounts
+
+## 🔧 API Endpoints
+
+### User Management
+- `php/register_user.php` - User registration
+- `php/login_user.php` - User login
+- `php/google_auth.php` - Google OAuth authentication
+- `php/get_user_profile.php` - Get user profile data
+- `php/update_user_profile.php` - Update user profile
+
+### Application Management
+- `php/submit_admission.php` - Submit admission application
+- `php/get_application_status.php` - Check application status
+- `php/applications_crud.php` - Admin: Manage applications
+
+### Admin
+- `php/admin_login.php` - Admin authentication
+- `php/admin_dashboard_data.php` - Get dashboard statistics
 
 ## 🧪 Testing
 
